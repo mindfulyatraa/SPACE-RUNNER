@@ -6,10 +6,21 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Zap, Trophy, MapPin, Diamond, Rocket, ArrowUpCircle, Shield, Activity, PlusCircle, Play, RotateCcw, Magnet, ShieldCheck, Key, User } from 'lucide-react';
+import { Heart, Zap, Trophy, MapPin, Diamond, Rocket, ArrowUpCircle, Shield, Activity, PlusCircle, Play, RotateCcw, Magnet, ShieldCheck, Key, User, Home, Tv } from 'lucide-react';
 import { useStore } from '../../store';
 import { GameStatus, LETTER_COLORS, ShopItem, RUN_SPEED_BASE } from '../../types';
 import { audio } from '../System/Audio';
+import spaceRunnerImg from '../../space_runner.jpg';
+
+import { RewardedAd } from '../Ads/RewardedAd';
+import { AdSenseBanner } from '../Ads/AdSenseBanner';
+
+// AdSense Slot IDs (Real IDs from Google AdSense console)
+const AD_SLOTS = {
+    MENU_BOTTOM: '7961728996', // Space Runner Menu Banner
+    GAME_OVER: '3722282840',   // Space Runner Game Over
+    PROFILE_BOTTOM: '2585171438' // Space Runner Profile Banner
+};
 
 // Available Shop Items
 const SHOP_ITEMS: ShopItem[] = [
@@ -133,46 +144,205 @@ const ShopScreen: React.FC = () => {
     );
 };
 
+// Achievement definitions
+const ACHIEVEMENTS = [
+    { id: 'CENTURY_HUNTER', name: 'Century Hunter', description: 'Score 100,000+ in single run', icon: Trophy, color: '#FFD700' },
+    { id: 'SPEED_DEMON', name: 'Speed Demon', description: 'Reach level 10+', icon: Zap, color: '#FF4500' },
+    { id: 'GEM_COLLECTOR', name: 'Gem Collector', description: 'Collect 500+ gems total', icon: Diamond, color: '#00CED1' },
+    { id: 'COMPLETIONIST', name: 'Completionist', description: 'Complete 50+ runs', icon: Rocket, color: '#9370DB' },
+    { id: 'PERFECT_RUN', name: 'Perfect Run', description: 'Complete level without damage', icon: Shield, color: '#32CD32' },
+    { id: 'KEY_MASTER', name: 'Key Master', description: 'Collect 10+ keys total', icon: Key, color: '#FFA500' }
+];
+
 const ProfileScreen: React.FC = () => {
-    const { stats, setStatus } = useStore();
+    const { stats, setStatus, setPlayerName } = useStore();
+    const [isEditingName, setIsEditingName] = useState(false);
+    const [nameInput, setNameInput] = useState(stats.playerName);
+
+    const MAX_LEVEL = 30;
+    const progressPercentage = (stats.highestLevel / MAX_LEVEL) * 100;
+    const averageScore = stats.totalRuns > 0 ? Math.floor(stats.highScore / stats.totalRuns) : 0;
+
+    const handleNameSave = () => {
+        if (nameInput.trim()) {
+            setPlayerName(nameInput.trim());
+        }
+        setIsEditingName(false);
+    };
 
     return (
         <div className="absolute inset-0 bg-black/95 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto">
-            <div className="flex flex-col items-center justify-center min-h-full py-8 px-4">
-                <h2 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 mb-8 font-cyber tracking-widest text-center">PILOT PROFILE</h2>
+            <div className="flex flex-col items-center justify-start min-h-full py-8 px-4">
+                {/* Header with player name */}
+                <div className="text-center mb-6">
+                    <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 mb-3 font-cyber tracking-widest">
+                        PILOT PROFILE
+                    </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full mb-8">
-                    <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700 flex flex-col items-center">
-                        <div className="text-gray-400 text-sm mb-2">TOTAL RUNS</div>
-                        <div className="text-3xl font-bold font-mono text-white">{stats.totalRuns}</div>
+                    {isEditingName ? (
+                        <div className="flex items-center justify-center gap-2">
+                            <input
+                                type="text"
+                                value={nameInput}
+                                onChange={(e) => setNameInput(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleNameSave()}
+                                maxLength={20}
+                                className="bg-gray-800 border border-cyan-500 px-4 py-2 rounded text-center font-bold uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                                autoFocus
+                            />
+                            <button
+                                onClick={handleNameSave}
+                                className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 rounded font-bold transition-colors"
+                            >
+                                ✓
+                            </button>
+                        </div>
+                    ) : (
+                        <div
+                            onClick={() => setIsEditingName(true)}
+                            className="cursor-pointer inline-flex items-center gap-2 px-6 py-2 bg-gray-800/50 rounded-full border border-gray-700 hover:border-cyan-500 transition-all"
+                        >
+                            <User className="w-4 h-4 text-cyan-400" />
+                            <span className="text-lg font-bold text-cyan-300">{stats.playerName}</span>
+                            <span className="text-xs text-gray-500">✎</span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Achievements Section */}
+                <div className="w-full max-w-3xl mb-6">
+                    <div className="text-center mb-3">
+                        <h3 className="text-xl font-bold text-cyan-400">⭐ ACHIEVEMENTS</h3>
+                        <p className="text-sm text-gray-400">{stats.achievements.length}/{ACHIEVEMENTS.length} Unlocked</p>
                     </div>
-                    <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700 flex flex-col items-center">
-                        <div className="text-gray-400 text-sm mb-2">HIGH SCORE</div>
-                        <div className="text-3xl font-bold font-mono text-yellow-400">{stats.highScore.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700 flex flex-col items-center">
-                        <div className="text-gray-400 text-sm mb-2">TOTAL DISTANCE</div>
-                        <div className="text-3xl font-bold font-mono text-purple-400">{Math.floor(stats.totalDistance)} LY</div>
-                    </div>
-                    <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700 flex flex-col items-center">
-                        <div className="text-gray-400 text-sm mb-2">ITEMS COLLECTED</div>
-                        <div className="text-3xl font-bold font-mono text-cyan-400">{stats.itemsCollected}</div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {ACHIEVEMENTS.map((achievement) => {
+                            const isUnlocked = stats.achievements.includes(achievement.id);
+                            const Icon = achievement.icon;
+                            return (
+                                <div
+                                    key={achievement.id}
+                                    className={`relative p-4 rounded-xl border-2 transition-all ${isUnlocked
+                                        ? 'bg-gray-800/80 border-cyan-500 shadow-[0_0_15px_rgba(0,255,255,0.3)]'
+                                        : 'bg-gray-900/50 border-gray-700 opacity-40 grayscale'
+                                        }`}
+                                >
+                                    <div className="flex flex-col items-center text-center">
+                                        <div
+                                            className={`p-3 rounded-full mb-2 ${isUnlocked ? 'bg-gray-700' : 'bg-gray-800'
+                                                }`}
+                                            style={{
+                                                boxShadow: isUnlocked ? `0 0 20px ${achievement.color}50` : 'none'
+                                            }}
+                                        >
+                                            <Icon
+                                                className="w-6 h-6"
+                                                style={{ color: isUnlocked ? achievement.color : '#4B5563' }}
+                                            />
+                                        </div>
+                                        <h4 className="text-xs font-bold mb-1">{achievement.name}</h4>
+                                        <p className="text-[10px] text-gray-400">{achievement.description}</p>
+                                        {isUnlocked && (
+                                            <div className="absolute top-2 right-2">
+                                                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-xs">✓</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
+                {/* Statistics Grid */}
+                <div className="w-full max-w-3xl mb-6">
+                    <h3 className="text-xl font-bold text-cyan-400 text-center mb-3">📊 STATISTICS</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="bg-gradient-to-br from-purple-900/50 to-gray-900/50 p-4 rounded-xl border border-purple-700/30">
+                            <div className="text-gray-400 text-xs mb-1">TOTAL RUNS</div>
+                            <div className="text-2xl font-bold font-mono text-white">{stats.totalRuns}</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-yellow-900/50 to-gray-900/50 p-4 rounded-xl border border-yellow-700/30">
+                            <div className="text-gray-400 text-xs mb-1">HIGH SCORE</div>
+                            <div className="text-2xl font-bold font-mono text-yellow-400">{stats.highScore.toLocaleString()}</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-cyan-900/50 to-gray-900/50 p-4 rounded-xl border border-cyan-700/30">
+                            <div className="text-gray-400 text-xs mb-1">TOTAL GEMS</div>
+                            <div className="text-2xl font-bold font-mono text-cyan-400">{stats.totalGems.toLocaleString()}</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-pink-900/50 to-gray-900/50 p-4 rounded-xl border border-pink-700/30">
+                            <div className="text-gray-400 text-xs mb-1">DISTANCE</div>
+                            <div className="text-2xl font-bold font-mono text-pink-400">{Math.floor(stats.totalDistance)} LY</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-green-900/50 to-gray-900/50 p-4 rounded-xl border border-green-700/30">
+                            <div className="text-gray-400 text-xs mb-1">ITEMS</div>
+                            <div className="text-2xl font-bold font-mono text-green-400">{stats.itemsCollected}</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-orange-900/50 to-gray-900/50 p-4 rounded-xl border border-orange-700/30">
+                            <div className="text-gray-400 text-xs mb-1">AVG SCORE</div>
+                            <div className="text-2xl font-bold font-mono text-orange-400">{averageScore.toLocaleString()}</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-indigo-900/50 to-gray-900/50 p-4 rounded-xl border border-indigo-700/30">
+                            <div className="text-gray-400 text-xs mb-1">PERFECT RUNS</div>
+                            <div className="text-2xl font-bold font-mono text-indigo-400">{stats.perfectRuns}</div>
+                        </div>
+                        <div className="bg-gradient-to-br from-yellow-900/50 to-gray-900/50 p-4 rounded-xl border border-yellow-700/30">
+                            <div className="text-gray-400 text-xs mb-1">TOTAL KEYS</div>
+                            <div className="text-2xl font-bold font-mono text-yellow-400">{stats.totalKeys}</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Progress Section */}
+                <div className="w-full max-w-3xl mb-6">
+                    <h3 className="text-xl font-bold text-cyan-400 text-center mb-3">🎯 PROGRESS</h3>
+                    <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm text-gray-400">HIGHEST LEVEL REACHED</span>
+                            <span className="text-lg font-bold text-purple-400">{stats.highestLevel}/{MAX_LEVEL}</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-full h-4 overflow-hidden border border-gray-700">
+                            <div
+                                className="h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 transition-all duration-500 flex items-center justify-center text-xs font-bold"
+                                style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+                            >
+                                {progressPercentage >= 15 && `${Math.floor(progressPercentage)}%`}
+                            </div>
+                        </div>
+                        {progressPercentage < 15 && (
+                            <div className="text-center mt-1 text-xs text-gray-500">{Math.floor(progressPercentage)}%</div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Back Button */}
                 <button
                     onClick={() => setStatus(GameStatus.MENU)}
-                    className="px-8 py-3 bg-gray-800 border border-gray-600 hover:border-white text-white font-bold rounded transition-all"
+                    className="px-8 py-3 bg-gray-800 border border-gray-600 hover:border-white text-white font-bold rounded transition-all hover:scale-105"
                 >
                     BACK TO MENU
                 </button>
+                <button
+                    onClick={() => setStatus(GameStatus.MENU)}
+                    className="px-8 py-3 bg-gray-800 border border-gray-600 hover:border-white text-white font-bold rounded transition-all hover:scale-105"
+                >
+                    BACK TO MENU
+                </button>
+
+                {/* AdSense Banner */}
+                <div className="w-full mt-6 flex justify-center">
+                    <AdSenseBanner slot={AD_SLOTS.PROFILE_BOTTOM} style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+                </div>
             </div>
         </div>
     );
 }
 
 export const HUD: React.FC = () => {
-    const { score, lives, maxLives, keys, collectedLetters, status, level, restartGame, reviveGame, startGame, gemsCollected, distance, isImmortalityActive, speed, currentWord, setStatus } = useStore();
+    const { score, lives, maxLives, keys, collectedLetters, status, level, restartGame, reviveGame, startGame, gemsCollected, distance, isImmortalityActive, speed, currentWord, setStatus, canUseAdRevive, canUseAdKey, continueWithAdRevive, continueWithAdKey } = useStore();
+
+    const [showAd, setShowAd] = useState(false);
+    const [adRewardType, setAdRewardType] = useState<'revive' | 'key'>('revive');
 
     const target = currentWord || ['S', 'P', 'A', 'C', 'E'];
     const containerClass = "absolute inset-0 pointer-events-none flex flex-col justify-between p-4 md:p-8 z-50";
@@ -187,7 +357,7 @@ export const HUD: React.FC = () => {
 
                     <div className="relative w-full">
                         <img
-                            src="/space_runner.jpg"
+                            src={spaceRunnerImg}
                             alt="Space Runner Cover"
                             className="w-full h-auto block"
                         />
@@ -216,7 +386,15 @@ export const HUD: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* AdSense Banner for Menu */}
+                <div className="absolute bottom-0 w-full flex justify-center pb-2 z-[110] pointer-events-none">
+                    <div className="pointer-events-auto">
+                        <AdSenseBanner slot={AD_SLOTS.MENU_BOTTOM} style={{ display: 'block', width: '320px', height: '50px' }} />
+                    </div>
+                </div>
             </div>
+
         );
     }
 
@@ -241,6 +419,7 @@ export const HUD: React.FC = () => {
                         </div>
                     </div>
 
+
                     <div className="flex flex-col gap-3 w-full max-w-md">
                         {keys > 0 && (
                             <button
@@ -251,12 +430,40 @@ export const HUD: React.FC = () => {
                             </button>
                         )}
 
+                        {/* Ad Reward Buttons */}
+                        {(canUseAdRevive || canUseAdKey) && (
+                            <div className="w-full border-t border-gray-700 pt-3 mt-2">
+                                <p className="text-center text-sm text-gray-400 mb-3">Watch an ad to continue</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {canUseAdRevive && (
+                                        <button
+                                            onClick={() => { setAdRewardType('revive'); setShowAd(true); }}
+                                            className="px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(168,85,247,0.5)] flex items-center justify-center gap-2"
+                                        >
+                                            <Tv className="w-5 h-5" />
+                                            <span>REVIVE</span>
+                                        </button>
+                                    )}
+                                    {canUseAdKey && (
+                                        <button
+                                            onClick={() => { setAdRewardType('key'); setShowAd(true); }}
+                                            className="px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(59,130,246,0.5)] flex items-center justify-center gap-2"
+                                        >
+                                            <Tv className="w-5 h-5" />
+                                            <span>+1 KEY</span>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+
                         <div className="flex gap-3">
                             <button
-                                onClick={() => { audio.init(); restartGame(); }}
+                                onClick={() => { audio.init(); setStatus(GameStatus.PROFILE); }}
                                 className="px-4 py-3 bg-gray-900/80 border border-gray-600 text-gray-300 font-bold rounded hover:bg-gray-800 hover:text-white transition-all flex items-center justify-center group"
                             >
-                                <RotateCcw className="w-5 h-5 group-hover:-rotate-180 transition-transform duration-500" />
+                                <Home className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                             </button>
 
                             <button
@@ -266,6 +473,26 @@ export const HUD: React.FC = () => {
                                 RUN AGAIN
                             </button>
                         </div>
+
+                        {/* AdSense Banner for Game Over */}
+                        <div className="w-full mt-6 flex justify-center max-w-md">
+                            <AdSenseBanner slot={AD_SLOTS.GAME_OVER} format="rectangle" style={{ display: 'block', width: '100%', height: '250px' }} />
+                        </div>
+                        {/* Rewarded Ad Modal */}
+                        {showAd && (
+                            <RewardedAd
+                                onClose={() => setShowAd(false)}
+                                onReward={() => {
+                                    setShowAd(false);
+                                    if (adRewardType === 'revive') {
+                                        continueWithAdRevive();
+                                    } else {
+                                        continueWithAdKey();
+                                    }
+                                }}
+                                rewardType={adRewardType}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
