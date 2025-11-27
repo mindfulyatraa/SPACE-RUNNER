@@ -24,7 +24,8 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
         }
     }, []);
 
-    if (window.location.hostname === 'localhost') {
+    // Show placeholder only in development
+    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
         return (
             <div className={`bg-gray-800 border-2 border-dashed border-gray-600 flex items-center justify-center text-gray-400 font-mono text-xs p-4 ${className}`} style={{ minHeight: '100px', ...style }}>
                 [ADSENSE BANNER PLACEHOLDER]
