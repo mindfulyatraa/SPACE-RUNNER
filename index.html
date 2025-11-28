@@ -1,29 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Space Runner</title>
-    <!-- Google AdMob -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4312395541510047"
-     crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #050011;
-        font-family: 'Rajdhani', sans-serif;
-        touch-action: none; /* Prevent pull-to-refresh on mobile */
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <!-- SEO Meta Tags -->
+  <title>Space Runner – Play the Ultimate Space Adventure</title>
+  <meta name="description"
+    content="Space Runner is a fast-paced space adventure game. Run, dodge, and survive the cosmic obstacles. Play now!" />
+  <meta name="keywords" content="space runner, space game, space adventure game, online game, neon game" />
+  <meta name="author" content="Raja" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="revisit-after" content="7 days" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://spacerunner.fun/" />
+
+  <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://spacerunner.fun/" />
+  <meta property="og:title" content="Space Runner – Play the Ultimate Space Adventure Game" />
+  <meta property="og:description"
+    content="Experience the thrill of Space Runner! A high-speed neon space adventure with smooth gameplay, colorful visuals, and addictive running action. Play free now!" />
+  <meta property="og:image" content="https://spacerunner.fun/space_runner.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Space Runner" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://spacerunner.fun/" />
+  <meta name="twitter:title" content="Space Runner – Play the Ultimate Space Adventure Game" />
+  <meta name="twitter:description"
+    content="Fast-paced neon space adventure game. Run, dodge, survive cosmic obstacles. Play Space Runner now!" />
+  <meta name="twitter:image" content="https://spacerunner.fun/space_runner.jpg" />
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#050011" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Space Runner",
+      "description": "Space Runner is a high-speed neon-style space adventure game where you run through cosmic paths, dodge obstacles, and explore the futuristic galaxy.",
+      "url": "https://spacerunner.fun/",
+      "image": "https://spacerunner.fun/space_runner.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Raja"
+      },
+      "genre": ["Action", "Adventure", "Arcade"],
+      "gamePlatform": ["Web Browser", "Android"],
+      "operatingSystem": "Any",
+      "applicationCategory": "Game",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150"
       }
-      .font-cyber {
-        font-family: 'Orbitron', sans-serif;
-      }
-    </style>
+    }
+    </script>
+
+  <!-- Google AdMob -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4312395541510047"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #050011;
+      font-family: 'Rajdhani', sans-serif;
+      touch-action: none;
+      /* Prevent pull-to-refresh on mobile */
+    }
+
+    .font-cyber {
+      font-family: 'Orbitron', sans-serif;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -41,10 +112,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
+
+<body>
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

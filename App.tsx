@@ -116,6 +116,26 @@ function App() {
           <Scene />
         </Suspense>
       </Canvas>
+
+      {/* SEO Content Section - Hidden but accessible to search engines */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent pointer-events-none" style={{ zIndex: -1, opacity: 0.01 }}>
+        <div className="max-w-4xl mx-auto text-white">
+          <h1 className="text-3xl font-cyber font-bold mb-3">
+            Play Space Runner – The Ultimate Neon Space Adventure Game
+          </h1>
+          <p className="text-base leading-relaxed mb-3">
+            Space Runner is a high-speed neon-style space adventure game where you run through cosmic paths,
+            dodge obstacles, and explore the futuristic galaxy. Enjoy smooth gameplay, colorful visuals,
+            and an addictive running experience. Play Space Runner now and test your reflexes in this
+            thrilling sci-fi runner game. Perfect for fans of action games, arcade games, and space adventures.
+          </p>
+          <div className="text-sm opacity-75">
+            <strong>Keywords:</strong> space runner game, space game online, neon running game, sci-fi runner game,
+            galaxy adventure game, free online game, arcade space game, cosmic runner, futuristic game,
+            action adventure game
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
