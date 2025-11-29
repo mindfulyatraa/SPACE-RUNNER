@@ -102,7 +102,7 @@ const ShopScreen: React.FC = () => {
     }, []);
 
     return (
-        <div className="absolute inset-0 bg-black/90 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto">
+        <div className="absolute inset-0 bg-black/90 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto scrollbar-hide">
             <div className="flex flex-col items-center justify-center min-h-full py-8 px-4">
                 <h2 className="text-3xl md:text-4xl font-black text-cyan-400 mb-2 font-cyber tracking-widest text-center">CYBER SHOP</h2>
                 <div className="flex items-center text-yellow-400 mb-6 md:mb-8">
@@ -171,7 +171,7 @@ const ProfileScreen: React.FC = () => {
     };
 
     return (
-        <div className="absolute inset-0 bg-black/95 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto">
+        <div className="absolute inset-0 bg-black/95 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto scrollbar-hide">
             <div className="flex flex-col items-center justify-start min-h-full py-8 px-4">
                 {/* Header with player name */}
                 <div className="text-center mb-6">
@@ -391,7 +391,7 @@ export const HUD: React.FC = () => {
 
     if (status === GameStatus.GAME_OVER) {
         return (
-            <div className="absolute inset-0 bg-black/90 z-[100] text-white pointer-events-auto backdrop-blur-sm overflow-y-auto">
+            <div className="absolute inset-0 bg-black/90 z-[100] text-white pointer-events-auto backdrop-blur-sm overflow-y-auto scrollbar-hide">
                 <div className="flex flex-col items-center justify-center min-h-full py-8 px-4">
                     <h1 className="text-4xl md:text-6xl font-black text-white mb-6 drop-shadow-[0_0_10px_rgba(255,0,0,0.8)] font-cyber text-center">GAME OVER</h1>
 
@@ -495,7 +495,7 @@ export const HUD: React.FC = () => {
 
     if (status === GameStatus.VICTORY) {
         return (
-            <div className="absolute inset-0 bg-gradient-to-b from-purple-900/90 to-black/95 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto">
+            <div className="absolute inset-0 bg-gradient-to-b from-purple-900/90 to-black/95 z-[100] text-white pointer-events-auto backdrop-blur-md overflow-y-auto scrollbar-hide">
                 <div className="flex flex-col items-center justify-center min-h-full py-8 px-4">
                     <Rocket className="w-16 h-16 md:w-24 md:h-24 text-yellow-400 mb-4 animate-bounce drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]" />
                     <h1 className="text-3xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-500 to-pink-500 mb-2 drop-shadow-[0_0_20px_rgba(255,165,0,0.6)] font-cyber text-center leading-tight">

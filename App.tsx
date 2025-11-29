@@ -74,7 +74,7 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
     }
   }, []);
   return (
-    <div className="relative w-full h-screen bg-black overflow-y-auto overflow-x-hidden text-white scroll-smooth">
+    <div className="relative w-full h-screen bg-black overflow-y-auto overflow-x-hidden text-white scroll-smooth scrollbar-hide">
       {/* Background Effect */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black pointer-events-none" />
 
