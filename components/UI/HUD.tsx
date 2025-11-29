@@ -322,17 +322,13 @@ const ProfileScreen: React.FC = () => {
                 >
                     BACK TO MENU
                 </button>
-                <button
-                    onClick={() => setStatus(GameStatus.MENU)}
-                    className="px-8 py-3 bg-gray-800 border border-gray-600 hover:border-white text-white font-bold rounded transition-all hover:scale-105"
-                >
-                    BACK TO MENU
-                </button>
 
-                {/* AdSense Banner */}
-                <div className="w-full mt-6 flex justify-center">
+                {/* AdSense Banner - Bottom of Profile */}
+                {/* TEMPORARILY DISABLED FOR RECORDING */}
+                {/* <div className="w-full mt-8 flex justify-center">
                     <AdSenseBanner slot={AD_SLOTS.PROFILE_BOTTOM} style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
-                </div>
+                </div> */}
+
             </div>
         </div>
     );
@@ -373,7 +369,7 @@ export const HUD: React.FC = () => {
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/40 via-purple-500/40 to-pink-500/40 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                                 <span className="relative z-10 tracking-widest flex items-center justify-center">
-                                    INITIALIZE RUN <Play className="ml-2 w-5 h-5 fill-white" />
+                                    LETS PLAY <Play className="ml-2 w-5 h-5 fill-white" />
                                 </span>
                             </button>
 
@@ -387,12 +383,7 @@ export const HUD: React.FC = () => {
                     </div>
                 </div>
 
-                {/* AdSense Banner for Menu */}
-                <div className="absolute bottom-0 w-full flex justify-center pb-2 z-[110] pointer-events-none">
-                    <div className="pointer-events-auto">
-                        <AdSenseBanner slot={AD_SLOTS.MENU_BOTTOM} style={{ display: 'block', width: '320px', height: '50px' }} />
-                    </div>
-                </div>
+
             </div>
 
         );
@@ -474,10 +465,7 @@ export const HUD: React.FC = () => {
                             </button>
                         </div>
 
-                        {/* AdSense Banner for Game Over */}
-                        <div className="w-full mt-6 flex justify-center max-w-md">
-                            <AdSenseBanner slot={AD_SLOTS.GAME_OVER} format="rectangle" style={{ display: 'block', width: '100%', height: '250px' }} />
-                        </div>
+
                         {/* Rewarded Ad Modal */}
                         {showAd && (
                             <RewardedAd
@@ -493,6 +481,12 @@ export const HUD: React.FC = () => {
                                 rewardType={adRewardType}
                             />
                         )}
+
+                        {/* AdSense Banner - Bottom of Game Over */}
+                        {/* TEMPORARILY DISABLED FOR RECORDING */}
+                        {/* <div className="w-full mt-6 flex justify-center">
+                            <AdSenseBanner slot={AD_SLOTS.GAME_OVER} format="rectangle" style={{ display: 'block', width: '100%', maxWidth: '336px', height: '280px' }} />
+                        </div> */}
                     </div>
                 </div>
             </div>
