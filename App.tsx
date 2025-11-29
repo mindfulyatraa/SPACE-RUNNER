@@ -16,6 +16,7 @@ import { Effects } from './components/World/Effects';
 import { HUD } from './components/UI/HUD';
 import { useStore } from './store';
 import { AdMob } from '@capacitor-community/admob';
+import { AdSenseBanner } from './components/Ads/AdSenseBanner';
 
 // Dynamic Camera Controller
 const CameraController = () => {
@@ -102,6 +103,11 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
           </button>
         </header>
 
+        {/* AdSense Banner - Top of Landing Page */}
+        <div className="w-full mb-12 flex justify-center">
+          <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+        </div>
+
         {/* Main Content / Blog Section */}
         <main className="w-full bg-white/5 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl mb-16">
 
@@ -119,6 +125,11 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
               </p>
             </div>
           </section>
+
+          {/* AdSense Banner - Middle of Content */}
+          <div className="w-full mb-12 flex justify-center">
+            <AdSenseBanner slot="7961728996" format="auto" responsive={true} style={{ display: 'block', width: '100%' }} />
+          </div>
 
           {/* The Story */}
           <section className="mb-12 grid md:grid-cols-2 gap-10 items-center">
@@ -199,15 +210,9 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
         </footer>
 
         {/* AdSense Banner - Bottom of Landing Page */}
-        {/* TEMPORARILY DISABLED FOR RECORDING */}
-        {/* <div className="w-full pb-8 flex justify-center">
-          <ins className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-4312395541510047"
-            data-ad-slot="7961728996"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        </div> */}
+        <div className="w-full pb-8 flex justify-center">
+          <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+        </div>
 
       </div>
     </div>

@@ -139,6 +139,11 @@ const ShopScreen: React.FC = () => {
                 >
                     RESUME MISSION <Play className="ml-2 w-5 h-5" fill="white" />
                 </button>
+
+                {/* AdSense Banner - Bottom of Shop */}
+                <div className="w-full mt-8 flex justify-center">
+                    <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+                </div>
             </div>
         </div>
     );

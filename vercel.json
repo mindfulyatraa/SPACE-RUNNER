@@ -1,4 +1,5 @@
 {
+    "cleanUrls": true,
     "headers": [
         {
             "source": "/sitemap.xml",
@@ -19,9 +20,22 @@
             ]
         }
     ],
+    "redirects": [
+        {
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "www.spacerunner.fun"
+                }
+            ],
+            "destination": "https://spacerunner.fun/:path*",
+            "permanent": true
+        }
+    ],
     "rewrites": [
         {
-            "source": "/((?!sitemap\\.xml|robots\\.txt).*)",
+            "source": "/((?!sitemap\\.xml|robots\\.txt|privacy\\.html|404\\.html).*)",
             "destination": "/index.html"
         }
     ]
