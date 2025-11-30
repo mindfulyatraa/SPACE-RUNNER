@@ -219,8 +219,12 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
   );
 };
 
+import { Recorder } from './components/UI/Recorder';
+
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const { recordingDpr } = useStore();
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   // AdMob removed - no ads in this version
 
@@ -231,14 +235,17 @@ function App() {
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden select-none">
       <HUD />
+      <Recorder canvasRef={canvasRef} />
       <Canvas
-        dpr={typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent) ? [1.0, 1.5] : [1, 2]} // IMPROVED: Better quality on mobile
+        ref={canvasRef}
+        dpr={recordingDpr} // Use dynamic DPR from store for recording quality
         gl={{
-          antialias: true, // IMPROVED: Enable antialiasing for smoother edges
+          antialias: true,
           stencil: false,
           depth: true,
-          powerPreference: typeof window !== 'undefined' && /Android|iPhone|iPad/i.test(navigator.userAgent) ? "high-performance" : "high-performance",
-          failIfMajorPerformanceCaveat: false
+          powerPreference: "high-performance",
+          failIfMajorPerformanceCaveat: false,
+          preserveDrawingBuffer: true // Required for capturing canvas stream
         }}
         // Initial camera, matches the controller base
         camera={{ position: [0, 5.5, 8], fov: 60 }}

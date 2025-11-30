@@ -75,6 +75,12 @@ interface GameState {
     // Ad Rewards
     continueWithAdRevive: () => void;
     continueWithAdKey: () => void;
+
+    // Recording State
+    isRecording: boolean;
+    recordingDpr: number;
+    setIsRecording: (isRecording: boolean) => void;
+    setRecordingDpr: (dpr: number) => void;
 }
 
 const LEVEL_WORDS = [
@@ -114,6 +120,11 @@ export const useStore = create<GameState>((set, get) => ({
 
     canUseAdRevive: true,
     canUseAdKey: true,
+
+    isRecording: false,
+    recordingDpr: 1,
+    setIsRecording: (isRecording) => set({ isRecording }),
+    setRecordingDpr: (dpr) => set({ recordingDpr: dpr }),
 
     stats: {
         totalRuns: 0,
