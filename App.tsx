@@ -223,7 +223,7 @@ import { Recorder } from './components/UI/Recorder';
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const { recordingDpr } = useStore();
+  const { recordingDpr, isRecording, recordingAspectRatio } = useStore();
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   // AdMob removed - no ads in this version
@@ -232,29 +232,45 @@ function App() {
     return <LandingPage onPlay={() => setIsPlaying(true)} />;
   }
 
+  // Calculate container style for recording
+  const containerStyle: React.CSSProperties = (isRecording && recordingAspectRatio === 'portrait') ? {
+    width: '56.25vh', // 9:16 aspect ratio relative to height
+    height: '100vh',
+    margin: '0 auto',
+    position: 'relative',
+    overflow: 'hidden'
+  } : {
+    width: '100%',
+    height: '100vh',
+    position: 'relative',
+    overflow: 'hidden'
+  };
+
   return (
-    <div className="relative w-full h-screen bg-black overflow-hidden select-none">
-      <HUD />
-      <Recorder canvasRef={canvasRef} />
-      <Canvas
-        ref={canvasRef}
-        dpr={recordingDpr} // Use dynamic DPR from store for recording quality
-        gl={{
-          antialias: true,
-          stencil: false,
-          depth: true,
-          powerPreference: "high-performance",
-          failIfMajorPerformanceCaveat: false,
-          preserveDrawingBuffer: true // Required for capturing canvas stream
-        }}
-        // Initial camera, matches the controller base
-        camera={{ position: [0, 5.5, 8], fov: 60 }}
-      >
-        <CameraController />
-        <Suspense fallback={null}>
-          <Scene />
-        </Suspense>
-      </Canvas>
+    <div className="bg-black w-full h-screen flex items-center justify-center">
+      <div style={containerStyle} className="select-none relative shadow-2xl">
+        <HUD />
+        <Recorder canvasRef={canvasRef} />
+        <Canvas
+          ref={canvasRef}
+          dpr={recordingDpr} // Use dynamic DPR from store for recording quality
+          gl={{
+            antialias: true,
+            stencil: false,
+            depth: true,
+            powerPreference: "high-performance",
+            failIfMajorPerformanceCaveat: false,
+            preserveDrawingBuffer: true // Required for capturing canvas stream
+          }}
+          // Initial camera, matches the controller base
+          camera={{ position: [0, 5.5, 8], fov: 60 }}
+        >
+          <CameraController />
+          <Suspense fallback={null}>
+            <Scene />
+          </Suspense>
+        </Canvas>
+      </div>
     </div>
   );
 }

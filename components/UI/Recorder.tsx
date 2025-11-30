@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Video, Download, Settings, Monitor, Smartphone, X, Circle, Square } from 'lucide-react';
 import { useStore } from '../../store';
+import { audio } from '../System/Audio';
 
 interface RecorderProps {
     canvasRef: React.RefObject<HTMLCanvasElement>;
 }
 
 export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
-    const { isRecording, setIsRecording, setRecordingDpr } = useStore();
+    const { isRecording, setIsRecording, setRecordingDpr, setRecordingAspectRatio } = useStore();
     const [isOpen, setIsOpen] = useState(false);
     const [resolution, setResolution] = useState<'1080p' | '2k' | '4k'>('1080p');
     const [aspectRatio, setAspectRatio] = useState<'landscape' | 'portrait'>('landscape');
@@ -17,11 +18,11 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
     const chunksRef = useRef<Blob[]>([]);
     const timerRef = useRef<any>(null);
 
-    // Resolution configs
+    // Optimized Resolution configs (Lower bitrates for better performance)
     const configs = {
-        '1080p': { dpr: 1, bitrate: 8000000, label: 'FHD (1080p)' },
-        '2k': { dpr: 1.5, bitrate: 16000000, label: '2K (1440p)' },
-        '4k': { dpr: 2, bitrate: 25000000, label: '4K (2160p)' }
+        '1080p': { dpr: 1, bitrate: 6000000, label: 'FHD (1080p)' }, // Reduced from 8M
+        '2k': { dpr: 1.5, bitrate: 12000000, label: '2K (1440p)' },  // Reduced from 16M
+        '4k': { dpr: 2, bitrate: 18000000, label: '4K (2160p)' }     // Reduced from 25M
     };
 
     useEffect(() => {
@@ -29,11 +30,26 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
         setRecordingDpr(configs[resolution].dpr);
     }, [resolution]);
 
+    useEffect(() => {
+        // Update store Aspect Ratio
+        setRecordingAspectRatio(aspectRatio);
+    }, [aspectRatio]);
+
     const startRecording = () => {
         const canvas = document.querySelector('canvas');
         if (!canvas) return;
 
+        // Ensure audio context is active
+        audio.init();
+
         const stream = canvas.captureStream(60); // 60 FPS
+
+        // Add Audio Track
+        const audioStream = audio.getRecordingStream();
+        if (audioStream) {
+            audioStream.getAudioTracks().forEach(track => stream.addTrack(track));
+        }
+
         const options = {
             mimeType: 'video/webm;codecs=vp9',
             videoBitsPerSecond: configs[resolution].bitrate
@@ -169,7 +185,7 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
                         </div>
 
                         <div className="text-xs text-gray-500 italic text-center">
-                            * Higher resolution may affect performance during recording.
+                            * Higher resolution may affect performance.
                         </div>
 
                         <button

@@ -22,8 +22,17 @@ export class AudioController {
       this.masterGain.connect(this.ctx.destination);
     }
     if (this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {});
+      this.ctx.resume().catch(() => { });
     }
+  }
+
+  getRecordingStream(): MediaStream | null {
+    if (!this.ctx || !this.masterGain) this.init();
+    if (!this.ctx || !this.masterGain) return null;
+
+    const dest = this.ctx.createMediaStreamDestination();
+    this.masterGain.connect(dest);
+    return dest.stream;
   }
 
   playGemCollect() {
@@ -50,28 +59,28 @@ export class AudioController {
   }
 
   playKeyCollect() {
-      if (!this.ctx || !this.masterGain) this.init();
-      if (!this.ctx || !this.masterGain) return;
+    if (!this.ctx || !this.masterGain) this.init();
+    if (!this.ctx || !this.masterGain) return;
 
-      const t = this.ctx.currentTime;
-      // Retro "Get Item" sound - Rapid Arpeggio
-      const notes = [880, 1109, 1318, 1760]; // A5, C#6, E6, A6
-      
-      notes.forEach((freq, i) => {
-          const osc = this.ctx!.createOscillator();
-          const gain = this.ctx!.createGain();
-          osc.type = 'square';
-          osc.frequency.value = freq;
-          
-          const start = t + (i * 0.08);
-          gain.gain.setValueAtTime(0.1, start);
-          gain.gain.exponentialRampToValueAtTime(0.01, start + 0.1);
-          
-          osc.connect(gain);
-          gain.connect(this.masterGain!);
-          osc.start(start);
-          osc.stop(start + 0.1);
-      });
+    const t = this.ctx.currentTime;
+    // Retro "Get Item" sound - Rapid Arpeggio
+    const notes = [880, 1109, 1318, 1760]; // A5, C#6, E6, A6
+
+    notes.forEach((freq, i) => {
+      const osc = this.ctx!.createOscillator();
+      const gain = this.ctx!.createGain();
+      osc.type = 'square';
+      osc.frequency.value = freq;
+
+      const start = t + (i * 0.08);
+      gain.gain.setValueAtTime(0.1, start);
+      gain.gain.exponentialRampToValueAtTime(0.01, start + 0.1);
+
+      osc.connect(gain);
+      gain.connect(this.masterGain!);
+      osc.start(start);
+      osc.stop(start + 0.1);
+    });
   }
 
   playHeartCollect() {
@@ -79,7 +88,7 @@ export class AudioController {
     if (!this.ctx || !this.masterGain) return;
 
     const t = this.ctx.currentTime;
-    
+
     // Positive healing sound (two tones)
     const osc1 = this.ctx.createOscillator();
     const osc2 = this.ctx.createOscillator();
@@ -91,7 +100,7 @@ export class AudioController {
     // Harmony
     osc1.frequency.setValueAtTime(440, t); // A4
     osc1.frequency.linearRampToValueAtTime(554.37, t + 0.1); // C#5
-    
+
     osc2.frequency.setValueAtTime(659.25, t); // E5
     osc2.frequency.linearRampToValueAtTime(880, t + 0.2); // A5
 
@@ -113,29 +122,29 @@ export class AudioController {
     if (!this.ctx || !this.masterGain) return;
 
     const t = this.ctx.currentTime;
-    
+
     // Play a major chord (C Majorish: C5, E5, G5) for a rewarding sound
-    const freqs = [523.25, 659.25, 783.99]; 
-    
+    const freqs = [523.25, 659.25, 783.99];
+
     freqs.forEach((f, i) => {
-        const osc = this.ctx!.createOscillator();
-        const gain = this.ctx!.createGain();
-        
-        osc.type = 'triangle';
-        osc.frequency.value = f;
-        
-        // Stagger start times slightly for an arpeggio feel
-        const start = t + (i * 0.04);
-        const dur = 0.3;
+      const osc = this.ctx!.createOscillator();
+      const gain = this.ctx!.createGain();
 
-        gain.gain.setValueAtTime(0.3, start);
-        gain.gain.exponentialRampToValueAtTime(0.01, start + dur);
+      osc.type = 'triangle';
+      osc.frequency.value = f;
 
-        osc.connect(gain);
-        gain.connect(this.masterGain!);
-        
-        osc.start(start);
-        osc.stop(start + dur);
+      // Stagger start times slightly for an arpeggio feel
+      const start = t + (i * 0.04);
+      const dur = 0.3;
+
+      gain.gain.setValueAtTime(0.3, start);
+      gain.gain.exponentialRampToValueAtTime(0.01, start + dur);
+
+      osc.connect(gain);
+      gain.connect(this.masterGain!);
+
+      osc.start(start);
+      osc.stop(start + dur);
     });
   }
 
@@ -149,7 +158,7 @@ export class AudioController {
 
     // Sine wave for a smooth "whoop" sound
     osc.type = 'sine';
-    
+
     // Pitch shift up for double jump
     const startFreq = isDouble ? 400 : 200;
     const endFreq = isDouble ? 800 : 450;
@@ -173,18 +182,18 @@ export class AudioController {
     if (!this.ctx || !this.masterGain) return;
 
     const t = this.ctx.currentTime;
-    
+
     // 1. Noise buffer for "crunch/static"
     const bufferSize = this.ctx.sampleRate * 0.3; // 0.3 seconds
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
+      data[i] = Math.random() * 2 - 1;
     }
 
     const noise = this.ctx.createBufferSource();
     noise.buffer = buffer;
-    
+
     // 2. Low oscillator for "thud/impact"
     const osc = this.ctx.createOscillator();
     osc.type = 'sawtooth';
@@ -201,7 +210,7 @@ export class AudioController {
 
     osc.connect(oscGain);
     oscGain.connect(this.masterGain);
-    
+
     noise.connect(noiseGain);
     noiseGain.connect(this.masterGain);
 
