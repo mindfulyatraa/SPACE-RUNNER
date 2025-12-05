@@ -83,6 +83,10 @@ interface GameState {
     setIsRecording: (isRecording: boolean) => void;
     setRecordingDpr: (dpr: number) => void;
     setRecordingAspectRatio: (ratio: 'landscape' | 'portrait') => void;
+
+    // Admin State
+    isAdmin: boolean;
+    setIsAdmin: (isAdmin: boolean) => void;
 }
 
 const LEVEL_WORDS = [
@@ -129,6 +133,9 @@ export const useStore = create<GameState>((set, get) => ({
     setIsRecording: (isRecording) => set({ isRecording }),
     setRecordingDpr: (dpr) => set({ recordingDpr: dpr }),
     setRecordingAspectRatio: (ratio) => set({ recordingAspectRatio: ratio }),
+
+    isAdmin: false,
+    setIsAdmin: (isAdmin) => set({ isAdmin }),
 
     stats: {
         totalRuns: 0,

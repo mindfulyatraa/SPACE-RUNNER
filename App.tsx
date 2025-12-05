@@ -220,10 +220,11 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
 };
 
 import { Recorder } from './components/UI/Recorder';
+import { AdminToggle } from './components/UI/AdminToggle';
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const { recordingDpr, isRecording, recordingAspectRatio } = useStore();
+  const { recordingDpr } = useStore();
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   // AdMob removed - no ads in this version
@@ -232,28 +233,15 @@ function App() {
     return <LandingPage onPlay={() => setIsPlaying(true)} />;
   }
 
-  // Calculate container style for recording
-  const containerStyle: React.CSSProperties = (isRecording && recordingAspectRatio === 'portrait') ? {
-    width: '56.25vh', // 9:16 aspect ratio relative to height
-    height: '100vh',
-    margin: '0 auto',
-    position: 'relative',
-    overflow: 'hidden'
-  } : {
-    width: '100%',
-    height: '100vh',
-    position: 'relative',
-    overflow: 'hidden'
-  };
-
   return (
     <div className="bg-black w-full h-screen flex items-center justify-center">
-      <div style={containerStyle} className="select-none relative shadow-2xl">
+      <div className="w-full h-full select-none relative">
+        <AdminToggle />
         <HUD />
         <Recorder canvasRef={canvasRef} />
         <Canvas
           ref={canvasRef}
-          dpr={recordingDpr} // Use dynamic DPR from store for recording quality
+          dpr={recordingDpr} // Always 1 now to prevent lag
           gl={{
             antialias: true,
             stencil: false,

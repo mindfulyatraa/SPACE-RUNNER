@@ -1,0 +1,29 @@
+{
+    "name": "Space Runner",
+    "short_name": "Space Runner",
+    "description": "Fast-paced neon space adventure game. Run, dodge, survive cosmic obstacles.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#050011",
+    "theme_color": "#050011",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ]
+}

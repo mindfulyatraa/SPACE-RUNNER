@@ -8,7 +8,7 @@ interface RecorderProps {
 }
 
 export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
-    const { isRecording, setIsRecording, setRecordingDpr, setRecordingAspectRatio } = useStore();
+    const { isRecording, setIsRecording, setRecordingDpr, setRecordingAspectRatio, isAdmin } = useStore();
     const [isOpen, setIsOpen] = useState(false);
     const [resolution, setResolution] = useState<'1080p' | '2k' | '4k'>('1080p');
     const [aspectRatio, setAspectRatio] = useState<'landscape' | 'portrait'>('landscape');
@@ -18,16 +18,16 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
     const chunksRef = useRef<Blob[]>([]);
     const timerRef = useRef<any>(null);
 
-    // Optimized Resolution configs (Lower bitrates for better performance)
+    // Optimized Resolution configs (Much lower DPR for smooth performance)
     const configs = {
-        '1080p': { dpr: 1, bitrate: 6000000, label: 'FHD (1080p)' }, // Reduced from 8M
-        '2k': { dpr: 1.5, bitrate: 12000000, label: '2K (1440p)' },  // Reduced from 16M
-        '4k': { dpr: 2, bitrate: 18000000, label: '4K (2160p)' }     // Reduced from 25M
+        '1080p': { dpr: 1, bitrate: 5000000, label: 'FHD (1080p)', width: 1920, height: 1080 },
+        '2k': { dpr: 1, bitrate: 8000000, label: '2K (1440p)', width: 2560, height: 1440 },
+        '4k': { dpr: 1, bitrate: 12000000, label: '4K (2160p)', width: 3840, height: 2160 }
     };
 
     useEffect(() => {
-        // Update store DPR based on selection
-        setRecordingDpr(configs[resolution].dpr);
+        // Keep DPR at 1 always to avoid lag - we'll handle quality via canvas size
+        setRecordingDpr(1);
     }, [resolution]);
 
     useEffect(() => {
@@ -39,21 +39,64 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
         const canvas = document.querySelector('canvas');
         if (!canvas) return;
 
+        // Resize canvas for recording quality and aspect ratio
+        const config = configs[resolution];
+        let targetWidth = config.width;
+        let targetHeight = config.height;
+
+        // Adjust for aspect ratio
+        if (aspectRatio === 'portrait') {
+            // Swap dimensions for 9:16
+            [targetWidth, targetHeight] = [Math.round(targetHeight * 9 / 16), targetHeight];
+        }
+
+        // Store original size to restore later
+        const originalWidth = canvas.width;
+        const originalHeight = canvas.height;
+
+        // Resize canvas to target recording resolution
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
         // Ensure audio context is active
         audio.init();
 
-        const stream = canvas.captureStream(60); // 60 FPS
+        // Capture at 30 FPS for better performance (60 FPS causes lag)
+        const stream = canvas.captureStream(30);
 
-        // Add Audio Track
+        // Add Audio Track - ensure proper connection
         const audioStream = audio.getRecordingStream();
         if (audioStream) {
-            audioStream.getAudioTracks().forEach(track => stream.addTrack(track));
+            const audioTracks = audioStream.getAudioTracks();
+            console.log('Audio tracks found:', audioTracks.length);
+            audioTracks.forEach(track => {
+                stream.addTrack(track);
+                console.log('Added audio track:', track.label);
+            });
+        } else {
+            console.warn('No audio stream available');
         }
 
-        const options = {
-            mimeType: 'video/webm;codecs=vp9',
-            videoBitsPerSecond: configs[resolution].bitrate
-        };
+        // Try different codecs for better compatibility
+        let options: MediaRecorderOptions;
+        if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+            options = {
+                mimeType: 'video/webm;codecs=vp9,opus',
+                videoBitsPerSecond: config.bitrate,
+                audioBitsPerSecond: 128000
+            };
+        } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+            options = {
+                mimeType: 'video/webm;codecs=vp8,opus',
+                videoBitsPerSecond: config.bitrate,
+                audioBitsPerSecond: 128000
+            };
+        } else {
+            options = {
+                mimeType: 'video/webm',
+                videoBitsPerSecond: config.bitrate
+            };
+        }
 
         try {
             const mediaRecorder = new MediaRecorder(stream, options);
@@ -67,7 +110,7 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
             };
 
             mediaRecorder.onstop = () => {
-                const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+                const blob = new Blob(chunksRef.current, { type: options.mimeType || 'video/webm' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -75,9 +118,14 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
                 a.click();
                 URL.revokeObjectURL(url);
                 setRecordingTime(0);
+
+                // Restore original canvas size
+                canvas.width = originalWidth;
+                canvas.height = originalHeight;
             };
 
-            mediaRecorder.start();
+            // Record in chunks for better memory management
+            mediaRecorder.start(1000); // 1 second chunks
             setIsRecording(true);
 
             // Start Timer
@@ -85,9 +133,19 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
                 setRecordingTime(prev => prev + 1);
             }, 1000);
 
+            console.log('Recording started:', {
+                resolution: `${targetWidth}x${targetHeight}`,
+                aspectRatio,
+                codec: options.mimeType,
+                audioTracks: stream.getAudioTracks().length
+            });
+
         } catch (err) {
             console.error("Error starting recording:", err);
             alert("Recording not supported in this browser or configuration.");
+            // Restore canvas size on error
+            canvas.width = originalWidth;
+            canvas.height = originalHeight;
         }
     };
 
@@ -105,6 +163,11 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
+    // Only show recorder to admin users
+    if (!isAdmin) {
+        return null;
+    }
+
     if (!isOpen && !isRecording) {
         return (
             <button
@@ -114,7 +177,7 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
             >
                 <Video className="w-6 h-6" />
                 <span className="absolute right-full mr-2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                    Studio Mode
+                    Studio Mode (Admin)
                 </span>
             </button>
         );
@@ -149,8 +212,8 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
                                         key={res}
                                         onClick={() => setResolution(res)}
                                         className={`px-2 py-1 text-xs font-bold rounded border ${resolution === res
-                                                ? 'bg-red-600 border-red-500 text-white'
-                                                : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
+                                            ? 'bg-red-600 border-red-500 text-white'
+                                            : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
                                             }`}
                                     >
                                         {configs[res].label.split(' ')[0]}
@@ -166,8 +229,8 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
                                 <button
                                     onClick={() => setAspectRatio('landscape')}
                                     className={`flex items-center justify-center gap-2 px-2 py-1 text-xs font-bold rounded border ${aspectRatio === 'landscape'
-                                            ? 'bg-blue-600 border-blue-500 text-white'
-                                            : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
+                                        ? 'bg-blue-600 border-blue-500 text-white'
+                                        : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
                                         }`}
                                 >
                                     <Monitor className="w-3 h-3" /> LANDSCAPE
@@ -175,8 +238,8 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
                                 <button
                                     onClick={() => setAspectRatio('portrait')}
                                     className={`flex items-center justify-center gap-2 px-2 py-1 text-xs font-bold rounded border ${aspectRatio === 'portrait'
-                                            ? 'bg-blue-600 border-blue-500 text-white'
-                                            : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
+                                        ? 'bg-blue-600 border-blue-500 text-white'
+                                        : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
                                         }`}
                                 >
                                     <Smartphone className="w-3 h-3" /> PORTRAIT
