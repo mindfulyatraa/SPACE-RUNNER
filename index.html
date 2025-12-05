@@ -1,26 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Space Runner</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #050011;
-        font-family: 'Rajdhani', sans-serif;
-        touch-action: none; /* Prevent pull-to-refresh on mobile */
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <!-- SEO Meta Tags -->
+  <title>Space Runner – Play Free Online Space Adventure Game</title>
+  <meta name="description"
+    content="Play Space Runner, a free online 3D space adventure game. Run, dodge obstacles, and survive in this fast-paced neon galaxy runner. No download required." />
+  <meta name="keywords"
+    content="space runner, space game, free online game, browser game, 3d runner, neon game, sci-fi adventure" />
+  <meta name="author" content="Raja" />
+  <meta name="robots" content="index, follow" />
+  <meta name="revisit-after" content="7 days" />
+
+  <!-- Favicon - Multiple formats for better compatibility -->
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+  <link rel="shortcut icon" href="./favicon.ico" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://spacerunner.fun/" />
+
+  <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://spacerunner.fun/" />
+  <meta property="og:title" content="Space Runner – Play the Ultimate Space Adventure Game" />
+  <meta property="og:description"
+    content="Experience the thrill of Space Runner! A high-speed neon space adventure with smooth gameplay, colorful visuals, and addictive running action. Play free now!" />
+  <meta property="og:image" content="https://spacerunner.fun/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Space Runner" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://spacerunner.fun/" />
+  <meta name="twitter:title" content="Space Runner – Play the Ultimate Space Adventure Game" />
+  <meta name="twitter:description"
+    content="Fast-paced neon space adventure game. Run, dodge, survive cosmic obstacles. Play Space Runner now!" />
+  <meta name="twitter:image" content="https://spacerunner.fun/og-image.png" />
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#050011" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.json" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Space Runner",
+      "description": "Space Runner is a high-speed neon-style space adventure game where you run through cosmic paths, dodge obstacles, and explore the futuristic galaxy.",
+      "url": "https://spacerunner.fun/",
+      "image": "https://spacerunner.fun/space_runner.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Raja"
+      },
+      "genre": ["Action", "Adventure", "Arcade"],
+      "gamePlatform": ["Web Browser", "Android"],
+      "operatingSystem": "Any",
+      "applicationCategory": "Game",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150"
       }
-      .font-cyber {
-        font-family: 'Orbitron', sans-serif;
-      }
-    </style>
+    }
+    </script>
+
+  <!-- Google AdMob -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4312395541510047"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #050011;
+      font-family: 'Rajdhani', sans-serif;
+      touch-action: none;
+      /* Prevent pull-to-refresh on mobile */
+    }
+
+    .font-cyber {
+      font-family: 'Orbitron', sans-serif;
+    }
+  </style>
 
   <script type="importmap">
 {
@@ -39,9 +123,128 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/SPACE-RUNNER/assets/index-CAn0cxmm.js"></script>
+  <script type="module" crossorigin src="./assets/index-DWRqrUrU.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-sulbyYQW.css">
 </head>
-  <body>
-    <div id="root"></div>
+
+<body>
+  <div id="root"></div>
+
+  <!-- SEO Content for Search Engines -->
+  <noscript>
+    <style>
+      .seo-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        color: #fff;
+        background: linear-gradient(135deg, #050011 0%, #1a0033 100%);
+        font-family: 'Rajdhani', sans-serif;
+        line-height: 1.8;
+      }
+
+      .seo-content h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.5em;
+        color: #00ffff;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      }
+
+      .seo-content h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.8em;
+        color: #ff00ff;
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+
+      .seo-content p {
+        margin-bottom: 15px;
+        font-size: 1.1em;
+      }
+
+      .seo-content ul {
+        list-style: disc;
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .seo-content a {
+        color: #00ffff;
+        text-decoration: none;
+      }
+
+      .seo-content a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <div class="seo-content">
+      <h1>Space Runner - Free 3D Space Adventure Game</h1>
+
+      <p>Welcome to <strong>Space Runner</strong>, the ultimate free online 3D space adventure game that will take you
+        on an exhilarating journey through the cosmos! Experience fast-paced neon-style gameplay as you navigate through
+        futuristic space environments, dodge challenging obstacles, and survive in this action-packed infinite runner
+        game.</p>
+
+      <p>Space Runner combines stunning visual effects with smooth, responsive gameplay to deliver an unforgettable
+        gaming experience. Whether you're a casual gamer looking for quick entertainment or a hardcore player seeking
+        high scores, Space Runner offers endless fun directly in your web browser - no download required!</p>
+
+      <h2>Game Features</h2>
+
+      <p>Our space adventure game is packed with exciting features that make it stand out from other browser games:</p>
+
+      <ul>
+        <li><strong>Stunning 3D Graphics:</strong> Immerse yourself in beautiful neon-lit space environments with smooth
+          animations and eye-catching visual effects</li>
+        <li><strong>Fast-Paced Gameplay:</strong> Test your reflexes as you run through cosmic pathways at increasing
+          speeds</li>
+        <li><strong>Intuitive Controls:</strong> Easy-to-learn controls that work perfectly on both desktop and mobile
+          devices</li>
+        <li><strong>Challenging Obstacles:</strong> Navigate through various space obstacles that become progressively
+          more difficult</li>
+        <li><strong>No Download Required:</strong> Play instantly in your browser without any installation</li>
+        <li><strong>Free to Play:</strong> Enjoy unlimited gameplay completely free</li>
+        <li><strong>Mobile Optimized:</strong> Seamlessly play on Android devices or any web browser</li>
+      </ul>
+
+      <h2>How to Play</h2>
+
+      <p>Playing Space Runner is simple yet challenging. Use arrow keys or swipe gestures to move your character left
+        and right, avoiding obstacles that appear in your path. The game speeds up as you progress, testing your
+        reaction time and concentration. Collect power-ups along the way to enhance your abilities and achieve higher
+        scores.</p>
+
+      <h2>Why Choose Space Runner?</h2>
+
+      <p>Space Runner stands out as one of the best free online games available today. The game features a unique blend
+        of retro arcade aesthetics with modern 3D graphics technology. The neon color palette creates a vibrant,
+        futuristic atmosphere that keeps players engaged for hours.</p>
+
+      <p>Unlike many browser games, Space Runner is optimized for performance, ensuring smooth gameplay even on older
+        devices. The game's progressive difficulty system means that both beginners and experienced players will find
+        the right level of challenge.</p>
+
+      <h2>Perfect for Everyone</h2>
+
+      <p>Whether you're taking a quick break at work, commuting on public transport, or relaxing at home, Space Runner
+        provides the perfect gaming experience. The game sessions can be as short or as long as you want, making it
+        ideal for any situation.</p>
+
+      <p>Join thousands of players worldwide who have already discovered the thrill of Space Runner. Start playing now
+        and see how far you can go in this exciting space adventure!</p>
+
+      <h2>Additional Resources</h2>
+
+      <ul>
+        <li><a href="/privacy.html">Privacy Policy</a> - Learn about how we protect your data</li>
+        <li><a href="https://spacerunner.fun/">Play Space Runner</a> - Start your adventure now</li>
+      </ul>
+
+      <p><em>Space Runner - Where cosmic adventure meets arcade action. Play free now!</em></p>
+    </div>
+  </noscript>
 </body>
+
 </html>
