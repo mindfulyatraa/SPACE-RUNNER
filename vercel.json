@@ -35,7 +35,7 @@
     ],
     "rewrites": [
         {
-            "source": "/((?!sitemap\\.xml|robots\\.txt|privacy\\.html|404\\.html).*)",
+            "source": "/((?!sitemap\\.xml|robots\\.txt|privacy\\.html|terms\\.html|about\\.html|contact\\.html|cookies\\.html|404\\.html).*)",
             "destination": "/index.html"
         }
     ]
