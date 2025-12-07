@@ -6,6 +6,7 @@ interface AdSenseBannerProps {
     format?: 'auto' | 'fluid' | 'rectangle';
     responsive?: boolean;
     style?: React.CSSProperties;
+    testMode?: boolean; // Enable test ads
 }
 
 export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
@@ -13,7 +14,8 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
     slot,
     format = 'auto',
     responsive = true,
-    style
+    style,
+    testMode = true // Default to test mode for now
 }) => {
     useEffect(() => {
         try {
@@ -28,9 +30,11 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
     if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
         return (
             <div className={`bg-gray-800 border-2 border-dashed border-gray-600 flex items-center justify-center text-gray-400 font-mono text-xs p-4 ${className}`} style={{ minHeight: '100px', ...style }}>
-                [ADSENSE BANNER PLACEHOLDER]
+                [ADSENSE BANNER - TEST MODE]
                 <br />
                 Slot: {slot}
+                <br />
+                <span className="text-green-400">Test ads will show on production</span>
             </div>
         );
     }
@@ -44,6 +48,7 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
                 data-ad-slot={slot}
                 data-ad-format={format}
                 data-full-width-responsive={responsive ? "true" : "false"}
+                data-adtest={testMode ? "on" : "off"} // Enable test ads
             />
         </div>
     );
