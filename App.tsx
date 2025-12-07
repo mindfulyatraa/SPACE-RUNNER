@@ -201,12 +201,15 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
 
         {/* Footer */}
         <footer className="text-gray-500 text-sm text-center pb-8 w-full max-w-4xl border-t border-white/5 pt-8">
-          <div className="flex justify-center gap-6 mb-4">
-            <a href="/privacy.html" className="hover:text-cyan-300 transition-colors" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-            <a href="#" className="hover:text-cyan-300 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-cyan-300 transition-colors">Contact Support</a>
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-4">
+            <a href="/privacy.html" className="hover:text-cyan-300 transition-colors">Privacy Policy</a>
+            <a href="/terms.html" className="hover:text-cyan-300 transition-colors">Terms of Service</a>
+            <a href="/about.html" className="hover:text-cyan-300 transition-colors">About Us</a>
+            <a href="/contact.html" className="hover:text-cyan-300 transition-colors">Contact</a>
+            <a href="/cookies.html" className="hover:text-cyan-300 transition-colors">Cookie Policy</a>
           </div>
-          <p>© 2025 Space Runner. Crafted with ❤️ for the Web.</p>
+          <p>© 2025 Space Runner. All Rights Reserved.</p>
+          <p className="mt-2 text-xs">Email: spacerunner.fun@gmail.com | Developer: Leo Dash</p>
         </footer>
 
         {/* AdSense Banner - Bottom of Landing Page */}
