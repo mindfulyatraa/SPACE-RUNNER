@@ -9,8 +9,9 @@ interface AdSenseBannerProps {
     testMode?: boolean; // Enable test ads
 }
 
-// Google's official test ad client (always shows test ads)
+// Google's official test ad credentials
 const TEST_AD_CLIENT = 'ca-pub-3940256099942544';
+const TEST_AD_SLOT = '2934735716'; // Google's test banner slot
 const PRODUCTION_AD_CLIENT = 'ca-pub-4312395541510047';
 
 export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
@@ -50,15 +51,16 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
         return (
             <div className={`bg-gray-800 border-2 border-dashed border-cyan-500 flex flex-col items-center justify-center text-gray-300 font-mono text-xs p-6 ${className}`} style={{ minHeight: '100px', ...style }}>
                 <div className="text-cyan-400 font-bold mb-2">🧪 ADSENSE TEST MODE</div>
-                <div className="text-gray-400">Slot: {slot}</div>
+                <div className="text-gray-400">Test Slot: {TEST_AD_SLOT}</div>
                 <div className="text-green-400 mt-2">✓ Test ads enabled on production</div>
-                <div className="text-xs text-gray-500 mt-1">Using Google's test client</div>
+                <div className="text-xs text-gray-500 mt-1">Using Google's official test credentials</div>
             </div>
         );
     }
 
-    // Use test ad client or production client
+    // Use test credentials or production credentials
     const adClient = testMode ? TEST_AD_CLIENT : PRODUCTION_AD_CLIENT;
+    const adSlot = testMode ? TEST_AD_SLOT : slot; // Use test slot in test mode
 
     return (
         <div className={`adsense-container ${className || ''}`} style={style}>
@@ -66,7 +68,7 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
                 className="adsbygoogle"
                 style={{ display: 'block', ...style }}
                 data-ad-client={adClient}
-                data-ad-slot={slot}
+                data-ad-slot={adSlot}
                 data-ad-format={format}
                 data-full-width-responsive={responsive ? "true" : "false"}
             />
