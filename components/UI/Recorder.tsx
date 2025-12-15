@@ -27,8 +27,10 @@ export const Recorder: React.FC<RecorderProps> = ({ canvasRef }) => {
 
     useEffect(() => {
         // Keep DPR at 1 always to avoid lag - we'll handle quality via canvas size
-        setRecordingDpr(1);
-    }, [resolution]);
+        if (isAdmin) {
+            setRecordingDpr(1);
+        }
+    }, [resolution, isAdmin]);
 
     useEffect(() => {
         // Update store Aspect Ratio

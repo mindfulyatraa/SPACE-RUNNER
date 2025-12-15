@@ -80,10 +80,10 @@ interface GameState {
 
     // Recording State
     isRecording: boolean;
-    recordingDpr: number;
+    recordingDpr: number | null;
     recordingAspectRatio: 'landscape' | 'portrait';
     setIsRecording: (isRecording: boolean) => void;
-    setRecordingDpr: (dpr: number) => void;
+    setRecordingDpr: (dpr: number | null) => void;
     setRecordingAspectRatio: (ratio: 'landscape' | 'portrait') => void;
 
     // Admin State
@@ -130,7 +130,7 @@ export const useStore = create<GameState>((set, get) => ({
     canUseAdKey: true,
 
     isRecording: false,
-    recordingDpr: 1,
+    recordingDpr: null,
     recordingAspectRatio: 'landscape',
     setIsRecording: (isRecording) => set({ isRecording }),
     setRecordingDpr: (dpr) => set({ recordingDpr: dpr }),

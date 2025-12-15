@@ -489,7 +489,7 @@ function App() {
         <Recorder canvasRef={canvasRef} />
         <Canvas
           ref={canvasRef}
-          dpr={recordingDpr} // Always 1 now to prevent lag
+          dpr={recordingDpr || [1, 3]} // Allow high quality (up to 3x) when not recording lag
           gl={{
             antialias: true,
             stencil: false,
