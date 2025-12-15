@@ -11,7 +11,8 @@ export enum GameStatus {
   SHOP = 'SHOP',
   GAME_OVER = 'GAME_OVER',
   VICTORY = 'VICTORY',
-  PROFILE = 'PROFILE'
+  PROFILE = 'PROFILE',
+  PAUSED = 'PAUSED'
 }
 
 export enum ObjectType {
@@ -46,21 +47,21 @@ export const REMOVE_DISTANCE = 20; // Behind player
 
 // Neon Colors for letters
 export const LETTER_COLORS = [
-    '#2979ff', // Blue
-    '#ff1744', // Red
-    '#ffea00', // Yellow
-    '#00e676', // Green
-    '#d500f9', // Purple
-    '#ff9100', // Orange
-    '#00bcd4', // Cyan
-    '#f50057', // Pink
+  '#2979ff', // Blue
+  '#ff1744', // Red
+  '#ffea00', // Yellow
+  '#00e676', // Green
+  '#d500f9', // Purple
+  '#ff9100', // Orange
+  '#00bcd4', // Cyan
+  '#f50057', // Pink
 ];
 
 export interface ShopItem {
-    id: string;
-    name: string;
-    description: string;
-    cost: number;
-    icon: any; // Lucide icon component
-    oneTime?: boolean; // If true, remove from pool after buying
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  icon: any; // Lucide icon component
+  oneTime?: boolean; // If true, remove from pool after buying
 }

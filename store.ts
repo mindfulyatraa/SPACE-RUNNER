@@ -64,6 +64,8 @@ interface GameState {
     collectLetter: (index: number) => void;
     setStatus: (status: GameStatus) => void;
     setDistance: (dist: number) => void;
+    pauseGame: () => void;
+    resumeGame: () => void;
 
     // Shop / Abilities
     buyItem: (type: 'DOUBLE_JUMP' | 'MAX_LIFE' | 'HEAL' | 'IMMORTAL' | 'SPEED_BOOST' | 'SHIELD_BOOST' | 'LANE_ASSIST' | 'KEY', cost: number) => boolean;
@@ -449,6 +451,18 @@ export const useStore = create<GameState>((set, get) => ({
 
 
     setStatus: (status) => set({ status }),
+    pauseGame: () => {
+        const { status } = get();
+        if (status === GameStatus.PLAYING) {
+            set({ status: GameStatus.PAUSED });
+        }
+    },
+    resumeGame: () => {
+        const { status } = get();
+        if (status === GameStatus.PAUSED) {
+            set({ status: GameStatus.PLAYING });
+        }
+    },
     increaseLevel: () => set((state) => ({ level: state.level + 1 })),
 
     continueWithAdRevive: () => {

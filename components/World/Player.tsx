@@ -155,19 +155,20 @@ export const Player: React.FC = () => {
     useFrame((state, delta) => {
         if (!groupRef.current) return;
         if (status !== GameStatus.PLAYING && status !== GameStatus.SHOP) return;
+        const safeDelta = Math.min(delta, 0.1);
 
         // 1. Horizontal Position
         targetX.current = lane * LANE_WIDTH;
         groupRef.current.position.x = THREE.MathUtils.lerp(
             groupRef.current.position.x,
             targetX.current,
-            delta * 15
+            safeDelta * 15
         );
 
         // 2. Physics (Jump)
         if (isJumping.current) {
-            groupRef.current.position.y += velocityY.current * delta;
-            velocityY.current -= GRAVITY * delta;
+            groupRef.current.position.y += velocityY.current * safeDelta;
+            velocityY.current -= GRAVITY * safeDelta;
 
             if (groupRef.current.position.y <= 0) {
                 groupRef.current.position.y = 0;
@@ -178,7 +179,7 @@ export const Player: React.FC = () => {
             }
 
             if (jumpsPerformed.current === 2 && bodyRef.current) {
-                spinRotation.current -= delta * 15;
+                spinRotation.current -= safeDelta * 15;
                 if (spinRotation.current < -Math.PI * 2) spinRotation.current = -Math.PI * 2;
                 bodyRef.current.rotation.x = spinRotation.current;
             }
@@ -199,7 +200,7 @@ export const Player: React.FC = () => {
 
             if (bodyRef.current) bodyRef.current.position.y = 1.1 + Math.abs(Math.sin(time)) * 0.1;
         } else {
-            const jumpPoseSpeed = delta * 10;
+            const jumpPoseSpeed = safeDelta * 10;
             if (leftArmRef.current) leftArmRef.current.rotation.x = THREE.MathUtils.lerp(leftArmRef.current.rotation.x, -2.5, jumpPoseSpeed);
             if (rightArmRef.current) rightArmRef.current.rotation.x = THREE.MathUtils.lerp(rightArmRef.current.rotation.x, -2.5, jumpPoseSpeed);
             if (leftLegRef.current) leftLegRef.current.rotation.x = THREE.MathUtils.lerp(leftLegRef.current.rotation.x, 0.5, jumpPoseSpeed);

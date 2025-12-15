@@ -447,11 +447,32 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
 
 import { Recorder } from './components/UI/Recorder';
 import { AdminToggle } from './components/UI/AdminToggle';
+import { PauseMenu } from './components/UI/PauseMenu';
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const { recordingDpr } = useStore();
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        useStore.getState().pauseGame();
+      }
+    };
+
+    const handleBlur = () => {
+      useStore.getState().pauseGame();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", handleBlur);
+    };
+  }, []);
 
   // AdMob removed - no ads in this version
 
@@ -463,6 +484,7 @@ function App() {
     <div className="bg-black w-full h-screen flex items-center justify-center">
       <div className="w-full h-full select-none relative">
         <AdminToggle />
+        <PauseMenu />
         <HUD />
         <Recorder canvasRef={canvasRef} />
         <Canvas

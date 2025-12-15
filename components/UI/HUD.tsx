@@ -6,7 +6,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Heart, Zap, Trophy, MapPin, Diamond, Rocket, ArrowUpCircle, Shield, Activity, PlusCircle, Play, RotateCcw, Magnet, ShieldCheck, Key, User, Home, Tv } from 'lucide-react';
+import { Heart, Zap, Trophy, MapPin, Diamond, Rocket, ArrowUpCircle, Shield, Activity, PlusCircle, Play, RotateCcw, Magnet, ShieldCheck, Key, User, Home, Tv, Pause } from 'lucide-react';
 import { useStore } from '../../store';
 import { GameStatus, LETTER_COLORS, ShopItem, RUN_SPEED_BASE } from '../../types';
 import { audio } from '../System/Audio';
@@ -340,7 +340,7 @@ const ProfileScreen: React.FC = () => {
 }
 
 export const HUD: React.FC = () => {
-    const { score, lives, maxLives, keys, collectedLetters, status, level, restartGame, reviveGame, startGame, gemsCollected, distance, isImmortalityActive, speed, currentWord, setStatus, canUseAdRevive, canUseAdKey, continueWithAdRevive, continueWithAdKey } = useStore();
+    const { score, lives, maxLives, keys, collectedLetters, status, level, restartGame, reviveGame, startGame, gemsCollected, distance, isImmortalityActive, speed, currentWord, setStatus, canUseAdRevive, canUseAdKey, continueWithAdRevive, continueWithAdKey, pauseGame } = useStore();
 
     const [showAd, setShowAd] = useState(false);
     const [adRewardType, setAdRewardType] = useState<'revive' | 'key'>('revive');
@@ -543,13 +543,22 @@ export const HUD: React.FC = () => {
                     )}
                 </div>
 
-                <div className="flex space-x-1 md:space-x-2">
-                    {[...Array(maxLives)].map((_, i) => (
-                        <Heart
-                            key={i}
-                            className={`w-6 h-6 md:w-8 md:h-8 ${i < lives ? 'text-pink-500 fill-pink-500' : 'text-gray-800 fill-gray-800'} drop-shadow-[0_0_5px_#ff0054]`}
-                        />
-                    ))}
+                <div className="flex items-center gap-4">
+                    <div className="flex space-x-1 md:space-x-2">
+                        {[...Array(maxLives)].map((_, i) => (
+                            <Heart
+                                key={i}
+                                className={`w-6 h-6 md:w-8 md:h-8 ${i < lives ? 'text-pink-500 fill-pink-500' : 'text-gray-800 fill-gray-800'} drop-shadow-[0_0_5px_#ff0054]`}
+                            />
+                        ))}
+                    </div>
+                    <button
+                        onClick={() => pauseGame()}
+                        className="bg-gray-800/50 p-2 rounded-full border border-gray-600 hover:border-cyan-400 hover:bg-gray-700/80 transition-all group"
+                        aria-label="Pause Game"
+                    >
+                        <Pause className="w-5 h-5 md:w-6 md:h-6 text-cyan-400 fill-cyan-400/20 group-hover:scale-110 transition-transform" />
+                    </button>
                 </div>
             </div>
 
