@@ -32,9 +32,9 @@ const CameraController = () => {
     const isMobile = aspect < 1.2;
 
     // Fixed camera positions
-    const cameraY = isMobile ? 8.0 : 5.5;   // Height based on device
-    const cameraZ = isMobile ? 14.0 : 8.0;  // Distance based on device
-    const lookDistance = isMobile ? -25 : -30; // View distance
+    const cameraY = isMobile ? 8.0 : 6.0;   // Higher camera for better view
+    const cameraZ = isMobile ? 14.0 : 10.0;  // Further back to frame player
+    const lookDistance = isMobile ? -20 : -25; // Look closer so player isn't at very bottom
 
     const targetPos = new THREE.Vector3(0, cameraY, cameraZ);
 
@@ -489,7 +489,7 @@ function App() {
         <Recorder canvasRef={canvasRef} />
         <Canvas
           ref={canvasRef}
-          dpr={recordingDpr || [1, 3]} // Allow high quality (up to 3x) when not recording lag
+          dpr={recordingDpr || [1, 2]} // Cap at 2x for smooth performance (Retina)
           gl={{
             antialias: true,
             stencil: false,
