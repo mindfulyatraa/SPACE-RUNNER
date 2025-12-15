@@ -436,8 +436,9 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
         </footer>
 
         {/* AdSense Banner - Bottom of Landing Page */}
-        <div className="w-full pb-8 flex justify-center">
+        <div className="w-full pb-8 flex flex-col items-center gap-4">
           <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+          <AdsterraNativeBanner />
         </div>
 
       </div>
@@ -448,6 +449,7 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
 import { Recorder } from './components/UI/Recorder';
 import { AdminToggle } from './components/UI/AdminToggle';
 import { PauseMenu } from './components/UI/PauseMenu';
+import { AdsterraNativeBanner } from './components/Ads/AdsterraNativeBanner';
 
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);

@@ -14,6 +14,7 @@ import spaceRunnerImg from '../../space_runner.jpg';
 
 import { RewardedAd } from '../Ads/RewardedAd';
 import { AdSenseBanner } from '../Ads/AdSenseBanner';
+import { AdsterraNativeBanner } from '../Ads/AdsterraNativeBanner';
 
 // AdSense Slot IDs (Real IDs from Google AdSense console)
 const AD_SLOTS = {
@@ -141,8 +142,9 @@ const ShopScreen: React.FC = () => {
                 </button>
 
                 {/* AdSense Banner - Bottom of Shop */}
-                <div className="w-full mt-8 flex justify-center">
+                <div className="w-full mt-8 flex flex-col items-center gap-4">
                     <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+                    <AdsterraNativeBanner />
                 </div>
             </div>
         </div>
@@ -330,9 +332,10 @@ const ProfileScreen: React.FC = () => {
 
                 {/* AdSense Banner - Bottom of Profile */}
                 {/* TEMPORARILY DISABLED FOR RECORDING */}
-                {/* <div className="w-full mt-8 flex justify-center">
+                <div className="w-full mt-8 flex flex-col items-center gap-4">
                     <AdSenseBanner slot={AD_SLOTS.PROFILE_BOTTOM} style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
-                </div> */}
+                    <AdsterraNativeBanner />
+                </div>
 
             </div>
         </div>
@@ -489,9 +492,10 @@ export const HUD: React.FC = () => {
 
                         {/* AdSense Banner - Bottom of Game Over */}
                         {/* TEMPORARILY DISABLED FOR RECORDING */}
-                        {/* <div className="w-full mt-6 flex justify-center">
+                        <div className="w-full mt-6 flex flex-col items-center gap-4">
                             <AdSenseBanner slot={AD_SLOTS.GAME_OVER} format="rectangle" style={{ display: 'block', width: '100%', maxWidth: '336px', height: '280px' }} />
-                        </div> */}
+                            <AdsterraNativeBanner />
+                        </div>
                     </div>
                 </div>
             </div>
