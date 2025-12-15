@@ -31,7 +31,7 @@ export const PauseMenu: React.FC = () => {
     };
 
     return (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-[2px]">
             {countdown !== null ? (
                 <div className="text-9xl font-cyber font-bold text-cyan-400 animate-pulse drop-shadow-[0_0_30px_rgba(34,211,238,0.8)]">
                     {countdown > 0 ? countdown : 'GO!'}

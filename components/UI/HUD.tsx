@@ -543,7 +543,7 @@ export const HUD: React.FC = () => {
                     )}
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col items-end gap-2">
                     <div className="flex space-x-1 md:space-x-2">
                         {[...Array(maxLives)].map((_, i) => (
                             <Heart
@@ -554,7 +554,7 @@ export const HUD: React.FC = () => {
                     </div>
                     <button
                         onClick={() => pauseGame()}
-                        className="bg-gray-800/50 p-2 rounded-full border border-gray-600 hover:border-cyan-400 hover:bg-gray-700/80 transition-all group"
+                        className="pointer-events-auto bg-gray-800/50 p-2 rounded-full border border-gray-600 hover:border-cyan-400 hover:bg-gray-700/80 transition-all group"
                         aria-label="Pause Game"
                     >
                         <Pause className="w-5 h-5 md:w-6 md:h-6 text-cyan-400 fill-cyan-400/20 group-hover:scale-110 transition-transform" />
