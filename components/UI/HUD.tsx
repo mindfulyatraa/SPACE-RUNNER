@@ -337,6 +337,7 @@ const ProfileScreen: React.FC = () => {
                 <div className="w-full mt-8 flex flex-col items-center gap-4">
                     <AdSenseBanner slot={AD_SLOTS.PROFILE_BOTTOM} style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
                     <AdsterraNativeBanner />
+                    <AdsterraBanner />
                 </div>
 
             </div>

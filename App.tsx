@@ -382,7 +382,6 @@ function App() {
   return (
     <div className="bg-black w-full h-screen flex items-center justify-center">
       <div className="w-full h-full select-none relative">
-        <AdsterraSocialBar />
         <AdminToggle />
         <PauseMenu />
         <HUD />
