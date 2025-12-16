@@ -50,7 +50,7 @@ export const RewardedAd: React.FC<RewardedAdProps> = ({ onClose, onReward, rewar
 
                         {/* Adsterra ad */}
                         <div className="my-4">
-                            <AdsterraBanner />
+                            <AdsterraBanner key={Date.now()} />
                         </div>
 
                         <p className="text-xs text-gray-400 mb-6">
