@@ -15,6 +15,7 @@ import spaceRunnerImg from '../../space_runner.jpg';
 import { RewardedAd } from '../Ads/RewardedAd';
 import { AdSenseBanner } from '../Ads/AdSenseBanner';
 import { AdsterraNativeBanner } from '../Ads/AdsterraNativeBanner';
+import { AdsterraBanner } from '../Ads/AdsterraBanner';
 
 // AdSense Slot IDs (Real IDs from Google AdSense console)
 const AD_SLOTS = {
@@ -145,6 +146,7 @@ const ShopScreen: React.FC = () => {
                 <div className="w-full mt-8 flex flex-col items-center gap-4">
                     <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
                     <AdsterraNativeBanner />
+                    <AdsterraBanner />
                 </div>
             </div>
         </div>

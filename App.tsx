@@ -17,6 +17,12 @@ import { HUD } from './components/UI/HUD';
 import { useStore } from './store';
 import { AdMob } from '@capacitor-community/admob';
 import { AdSenseBanner } from './components/Ads/AdSenseBanner';
+import { AdsterraNativeBanner } from './components/Ads/AdsterraNativeBanner';
+import { AdsterraBanner } from './components/Ads/AdsterraBanner';
+import { AdsterraSocialBar } from './components/Ads/AdsterraSocialBar';
+import { Recorder } from './components/UI/Recorder';
+import { AdminToggle } from './components/UI/AdminToggle';
+import { PauseMenu } from './components/UI/PauseMenu';
 
 // Dynamic Camera Controller
 const CameraController = () => {
@@ -99,17 +105,17 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
             <span className="relative z-10 flex items-center gap-3">
               LETS PLAY 🚀
             </span>
-            <div className="absolute inset-0 bg-white/30 blur-xl group-hover:opacity-100 opacity-0 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-white/20 blur-lg group-hover:blur-xl transition-all duration-300 opacity-0 group-hover:opacity-100" />
           </button>
         </header>
 
-        {/* AdSense Banner - Top of Landing Page */}
-        <div className="w-full mb-12 flex justify-center">
-          <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
+        {/* Adsterra Banner - Top position */}
+        <div className='w-full flex justify-center mb-8'>
+          <AdsterraBanner />
         </div>
 
-        {/* Main Content / Blog Section */}
-        <main className="w-full bg-white/5 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl mb-16">
+        {/* Main Content Grid */}
+        <main className="grid gap-12 w-full">
 
 
           {/* Introduction */}
@@ -141,162 +147,50 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
               Complete Game Guide for Beginners
             </h2>
             <div className="prose prose-invert max-w-none text-gray-300 text-lg leading-relaxed space-y-6">
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Getting Started</h3>
               <p>
-                Starting your Space Runner journey is incredibly simple. Click the "LETS PLAY" button on the homepage, and you'll be immediately transported into the neon-lit cosmic highway. The game loads instantly in your browser without any additional plugins or downloads. Your character automatically moves forward, and your job is to navigate left, right, and jump to avoid obstacles.
+                Mastering Space Runner requires quick reflexes and strategic thinking. Here's everything you need to know to survive the void:
               </p>
 
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Understanding Game Mechanics</h3>
-              <p>
-                Space Runner features a three-lane running system. Your character runs continuously forward on one of three parallel lanes in space. As you progress, various obstacles appear in your path - some are stationary energy barriers, while others are dynamic quantum debris that require precise timing to avoid. The game speed gradually increases as you run farther, testing your reflexes and concentration.
-              </p>
-              <p>
-                The scoring system is straightforward yet rewarding. You earn points for every second survived and bonus points for successfully avoiding obstacles at high speeds. The longer you survive, the higher your score multiplier becomes. Your high score is automatically saved in your browser's local storage, allowing you to track your progress and compete against yourself.
-              </p>
+              <div className="grid md:grid-cols-2 gap-8 my-8">
+                <div className="bg-black/40 p-6 rounded-xl border border-cyan-500/20 hover:border-cyan-500/50 transition-colors">
+                  <h3 className="text-2xl font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                    🏃‍♂️ Core Controls
+                  </h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li className="flex items-start gap-2"><span className="text-cyan-400 font-bold">A / Left Arrow:</span> Move Left</li>
+                    <li className="flex items-start gap-2"><span className="text-cyan-400 font-bold">D / Right Arrow:</span> Move Right</li>
+                    <li className="flex items-start gap-2"><span className="text-cyan-400 font-bold">Space / Up Arrow:</span> Jump over obstacles</li>
+                    <li className="flex items-start gap-2"><span className="text-cyan-400 font-bold">Mobile:</span> Tap Left/Right side to move, Tap Center to Jump</li>
+                  </ul>
+                </div>
 
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Obstacle Types Explained</h3>
-              <p>
-                <strong>Energy Barriers:</strong> These glowing red obstacles block entire lanes and require you to switch lanes quickly. They appear with increasing frequency as the game progresses.
-              </p>
-              <p>
-                <strong>Void Gaps:</strong> Sometimes the cosmic highway has missing sections. Jump over these gaps to avoid falling into the endless void of space.
-              </p>
-              <p>
-                <strong>Quantum Debris:</strong> Floating space debris that moves in patterns. Learn to predict their movement and time your lane changes accordingly.
-              </p>
-
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Controls Mastery</h3>
-              <p>
-                <strong>Desktop Controls:</strong> Use the Left and Right arrow keys to switch between the three lanes. Press the Up arrow key or Spacebar to jump over low obstacles and gaps. The controls are highly responsive, registering inputs instantly to give you precise control.
-              </p>
-              <p>
-                <strong>Mobile Controls:</strong> Swipe left or right on your screen to change lanes. Swipe up to jump. The touch controls are optimized for smartphones and tablets, providing the same level of precision as keyboard controls.
-              </p>
-
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Progression and Difficulty</h3>
-              <p>
-                Space Runner implements a dynamic difficulty system. The game starts at a comfortable pace, allowing beginners to learn the mechanics. As you progress, the speed increases incrementally, and obstacles appear more frequently in complex patterns. Around the 30-second mark, you'll notice a significant speed boost. At 60 seconds, the game enters "Ultra Mode" where only the most skilled players can survive.
-              </p>
-            </div>
-          </section>
-
-          {/* The Story & Key Features */}
-          <section className="mb-12 grid md:grid-cols-2 gap-10 items-start">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <span className="text-purple-500">🌌</span> The Story
-              </h3>
-              <p className="text-gray-300 text-lg leading-relaxed mb-4">
-                You are a rogue pilot navigating the <strong>Neon Highway</strong>, a treacherous interstellar route connecting the outer rim colonies. The path is littered with energy barriers, quantum debris, and void gaps. Your mission? Go as far as you can. There is no finish line—only the pursuit of a higher score and the thrill of the run.
-              </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                In the year 2247, the Neon Highway became the fastest trade route through deep space, but it's also the most dangerous. Pirates, cosmic storms, and unstable wormholes make every journey a test of skill and courage. You've been hired to test the route's viability, and every successful run brings humanity closer to establishing permanent colonies beyond the solar system.
-              </p>
-            </div>
-            <div className="bg-black/40 p-6 rounded-xl border border-purple-500/20">
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <span className="text-yellow-400">⚡</span> Key Features Detailed
-              </h3>
-              <ul className="space-y-4 text-gray-300">
-                <li className="flex items-start gap-3">
-                  <span className="text-cyan-400 mt-1">✓</span>
-                  <span><strong>Infinite Procedural World:</strong> Our advanced algorithm generates unique obstacle patterns for every playthrough. No two runs are identical, ensuring endless replayability and fresh challenges every time you play.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-cyan-400 mt-1">✓</span>
-                  <span><strong>Responsive Controls:</strong> Sub-10ms input latency on modern browsers ensures your commands are executed instantly. Optimized for both keyboard and touch controls with smooth, lag-free performance.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-cyan-400 mt-1">✓</span>
-                  <span><strong>Stunning 3D Graphics:</strong> Real-time WebGL rendering powered by Three.js delivers console-quality visuals in your browser. Features include dynamic neon lighting, particle effects, post-processing bloom, and chromatic aberration.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-cyan-400 mt-1">✓</span>
-                  <span><strong>Cross-Platform Compatibility:</strong> Works on Windows, macOS, Linux, Android, and iOS. Optimized for Chrome, Firefox, Safari, and Edge browsers.</span>
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          {/* How to Play */}
-          <section className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-cyber text-cyan-400 mb-8 border-b border-cyan-500/30 pb-4">
-              How to Master the Void
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6 text-center mb-8">
-              <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl border border-gray-800 hover:border-cyan-500/50 transition-colors">
-                <div className="text-4xl mb-4">⬅️ ➡️</div>
-                <h4 className="text-xl font-bold text-white mb-2">Steer</h4>
-                <p className="text-gray-400">Use <strong>Left/Right Arrow Keys</strong> or <strong>Swipe</strong> on mobile to switch lanes instantly. Master quick lane changes to avoid obstacles.</p>
-              </div>
-              <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl border border-gray-800 hover:border-purple-500/50 transition-colors">
-                <div className="text-4xl mb-4">⬆️</div>
-                <h4 className="text-xl font-bold text-white mb-2">Jump</h4>
-                <p className="text-gray-400">Press <strong>Up Arrow</strong> or <strong>Swipe Up</strong> to leap over low obstacles and gaps. Timing is crucial for successful jumps.</p>
-              </div>
-              <div className="bg-gradient-to-br from-gray-900 to-black p-6 rounded-xl border border-gray-800 hover:border-pink-500/50 transition-colors">
-                <div className="text-4xl mb-4">🛡️</div>
-                <h4 className="text-xl font-bold text-white mb-2">Survive</h4>
-                <p className="text-gray-400">Avoid red barriers and falling into the void. One mistake and it's game over. Stay focused and keep your reflexes sharp!</p>
+                <div className="bg-black/40 p-6 rounded-xl border border-purple-500/20 hover:border-purple-500/50 transition-colors">
+                  <h3 className="text-2xl font-bold text-purple-300 mb-4 flex items-center gap-2">
+                    💎 Collectibles & Scoring
+                  </h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li className="flex items-start gap-2"><span className="text-yellow-400">⚡ Blue Gems:</span> Small score boost (+10 points)</li>
+                    <li className="flex items-start gap-2"><span className="text-purple-400">🌟 Gold Gems:</span> Massive score boost (+50 points)</li>
+                    <li className="flex items-start gap-2"><span className="text-red-400">❤️ Hearts:</span> Extra life (Maximum 3)</li>
+                    <li className="flex items-start gap-2"><span className="text-green-400">🛡️ Shield:</span> Temporary invincibility (Coming Soon)</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </section>
-
-          {/* Advanced Strategies */}
-          <section className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-cyber text-cyan-400 mb-8 border-b border-cyan-500/30 pb-4">
-              Advanced Strategies for High Scores
-            </h2>
-            <div className="prose prose-invert max-w-none text-gray-300 text-lg leading-relaxed space-y-6">
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Expert Tips to Maximize Your Score</h3>
-              <p>
-                <strong>1. Stay in the Middle Lane:</strong> Whenever possible, position yourself in the center lane. This gives you maximum flexibility to dodge left or right when obstacles appear. The middle lane provides the best reaction time for unexpected patterns.
-              </p>
-              <p>
-                <strong>2. Anticipate, Don't React:</strong> Top players don't just react to obstacles—they anticipate them. Watch the horizon ahead and plan your moves 2-3 seconds in advance. This proactive approach becomes essential as the game speed increases.
-              </p>
-              <p>
-                <strong>3. Develop Pattern Recognition:</strong> While levels are procedurally generated, certain obstacle combinations repeat. After playing for a while, you'll start recognizing patterns like "left-middle-right barrier sequences" or "gap followed by debris." Learning these patterns dramatically improves survival time.
-              </p>
-              <p>
-                <strong>4. Perfect Your Jump Timing:</strong> Jumping too early or too late results in collision. Practice timing your jumps so you press the jump key exactly when you're about one full character-length away from the gap or low obstacle. This becomes muscle memory with practice.
-              </p>
-
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Common Mistakes to Avoid</h3>
-              <p>
-                <strong>Panic Lane Switching:</strong> New players often switch lanes repeatedly when panicked, which usually leads to colliding with obstacles in adjacent lanes. Stay calm and make deliberate, single lane changes.
-              </p>
-              <p>
-                <strong>Looking at Your Character:</strong> Don't focus on your runner—watch the obstacles ahead. Your peripheral vision will naturally track your character's position while your main focus should be on upcoming hazards.
-              </p>
-              <p>
-                <strong>Playing When Tired:</strong> Space Runner requires sharp reflexes and concentration. Playing when tired significantly reduces performance. Take breaks every 15-20 minutes to maintain peak performance.
-              </p>
-
-              <h3 className="text-2xl font-bold text-white mt-6 mb-4">Performance Optimization Tips</h3>
-              <p>
-                For the best gaming experience, close unnecessary browser tabs and applications that might consume system resources. Use a wired internet connection when possible to minimize input lag. On mobile devices, enable "Do Not Disturb" mode to prevent notification interruptions during gameplay.
-              </p>
-            </div>
+            {/* Adsterra Banner - After Instructions / FAQ */}
+            <AdsterraBanner />
           </section>
 
           {/* FAQ Section */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-cyber text-cyan-400 mb-8 border-b border-cyan-500/30 pb-4">
-              Frequently Asked Questions
+              Frequently Asked Questions (FAQ)
             </h2>
             <div className="space-y-6">
               <div className="bg-black/30 p-6 rounded-xl border border-cyan-500/20">
-                <h3 className="text-xl font-bold text-cyan-300 mb-3">What is Space Runner?</h3>
+                <h3 className="text-xl font-bold text-cyan-300 mb-3">Is Space Runner safe for kids?</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  Space Runner is a free-to-play, browser-based 3D endless runner game set in a futuristic neon-lit space environment. Built with modern web technologies like React Three Fiber and WebGL, it delivers high-quality graphics and smooth gameplay without requiring any downloads or installations.
-                </p>
-              </div>
-
-              <div className="bg-black/30 p-6 rounded-xl border border-purple-500/20">
-                <h3 className="text-xl font-bold text-cyan-300 mb-3">Can I play on mobile devices?</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  Absolutely! Space Runner is fully optimized for both iOS and Android devices. The game features responsive touch controls (swipe gestures) and automatically adjusts graphics quality based on your device's capabilities to ensure smooth 60fps gameplay on smartphones and tablets.
+                  Absolutely. Space Runner is a family-friendly arcade game with no violent content, gore, or inappropriate themes. It's designed to be a fun, challenging experience suitable for players of all ages. We prioritize user safety and do not collect personal identifiable information from our players.
                 </p>
               </div>
 
@@ -422,6 +316,9 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
 
         </main>
 
+        {/* Adsterra Banner - Above Footer */}
+        <AdsterraBanner />
+
         {/* Footer */}
         <footer className="text-gray-500 text-sm text-center pb-8 w-full max-w-4xl border-t border-white/5 pt-8">
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-4">
@@ -446,15 +343,15 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
   );
 };
 
-import { Recorder } from './components/UI/Recorder';
-import { AdminToggle } from './components/UI/AdminToggle';
-import { PauseMenu } from './components/UI/PauseMenu';
-import { AdsterraNativeBanner } from './components/Ads/AdsterraNativeBanner';
-
 function App() {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const { recordingDpr } = useStore();
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+  // Render Social Bar globally
+  React.useEffect(() => {
+    // Force re-render of social bar if needed
+  }, []);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -485,6 +382,7 @@ function App() {
   return (
     <div className="bg-black w-full h-screen flex items-center justify-center">
       <div className="w-full h-full select-none relative">
+        <AdsterraSocialBar />
         <AdminToggle />
         <PauseMenu />
         <HUD />
@@ -500,7 +398,6 @@ function App() {
             failIfMajorPerformanceCaveat: false,
             preserveDrawingBuffer: true // Required for capturing canvas stream
           }}
-          // Initial camera, matches the controller base
           camera={{ position: [0, 5.5, 8], fov: 60 }}
         >
           <CameraController />
@@ -511,6 +408,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
