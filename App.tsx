@@ -385,6 +385,7 @@ function App() {
         <AdminToggle />
         <PauseMenu />
         <HUD />
+        <AdsterraSocialBar />
         <Recorder canvasRef={canvasRef} />
         <Canvas
           ref={canvasRef}

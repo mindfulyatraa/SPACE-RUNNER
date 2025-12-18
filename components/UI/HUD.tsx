@@ -390,6 +390,11 @@ export const HUD: React.FC = () => {
                             >
                                 <User className="w-4 h-4 mr-2" /> PILOT PROFILE
                             </button>
+
+                            {/* Adsterra Banner for Main Menu */}
+                            <div className="w-full flex justify-center mt-2 pointer-events-auto">
+                                <AdsterraBanner />
+                            </div>
                         </div>
                     </div>
                 </div>
