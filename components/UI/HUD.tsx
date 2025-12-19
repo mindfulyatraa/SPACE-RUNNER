@@ -12,17 +12,9 @@ import { GameStatus, LETTER_COLORS, ShopItem, RUN_SPEED_BASE } from '../../types
 import { audio } from '../System/Audio';
 import spaceRunnerImg from '../../space_runner.jpg';
 
-import { RewardedAd } from '../Ads/RewardedAd';
-import { AdSenseBanner } from '../Ads/AdSenseBanner';
-import { AdsterraNativeBanner } from '../Ads/AdsterraNativeBanner';
-import { AdsterraBanner } from '../Ads/AdsterraBanner';
+import spaceRunnerImg from '../../space_runner.jpg';
 
-// AdSense Slot IDs (Real IDs from Google AdSense console)
-const AD_SLOTS = {
-    MENU_BOTTOM: '7961728996', // Space Runner Menu Banner
-    GAME_OVER: '3722282840',   // Space Runner Game Over
-    PROFILE_BOTTOM: '2585171438' // Space Runner Profile Banner
-};
+// AdSense Slot IDs removed
 
 // Available Shop Items
 const SHOP_ITEMS: ShopItem[] = [
@@ -142,12 +134,7 @@ const ShopScreen: React.FC = () => {
                     RESUME MISSION <Play className="ml-2 w-5 h-5" fill="white" />
                 </button>
 
-                {/* AdSense Banner - Bottom of Shop */}
-                <div className="w-full mt-8 flex flex-col items-center gap-4">
-                    <AdSenseBanner slot="7961728996" style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
-                    <AdsterraNativeBanner />
-                    <AdsterraBanner />
-                </div>
+                {/* AdSense Banner - Bottom of Shop removed */}
             </div>
         </div>
     );
@@ -332,13 +319,7 @@ const ProfileScreen: React.FC = () => {
                     BACK TO MENU
                 </button>
 
-                {/* AdSense Banner - Bottom of Profile */}
-                {/* TEMPORARILY DISABLED FOR RECORDING */}
-                <div className="w-full mt-8 flex flex-col items-center gap-4">
-                    <AdSenseBanner slot={AD_SLOTS.PROFILE_BOTTOM} style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }} />
-                    <AdsterraNativeBanner />
-                    <AdsterraBanner />
-                </div>
+                {/* AdSense Banner - Bottom of Profile removed */}
 
             </div>
         </div>
@@ -391,10 +372,7 @@ export const HUD: React.FC = () => {
                                 <User className="w-4 h-4 mr-2" /> PILOT PROFILE
                             </button>
 
-                            {/* Adsterra Banner for Main Menu */}
-                            <div className="w-full flex justify-center mt-2 pointer-events-auto">
-                                <AdsterraBanner />
-                            </div>
+                            {/* Adsterra Banner for Main Menu removed */}
                         </div>
                     </div>
                 </div>
@@ -437,30 +415,10 @@ export const HUD: React.FC = () => {
                             </button>
                         )}
 
-                        {/* Ad Reward Buttons */}
+                        {/* Ad Reward Buttons removed */}
                         {(canUseAdRevive || canUseAdKey) && (
                             <div className="w-full border-t border-gray-700 pt-3 mt-2">
-                                <p className="text-center text-sm text-gray-400 mb-3">Watch an ad to continue</p>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    {canUseAdRevive && (
-                                        <button
-                                            onClick={() => { setAdRewardType('revive'); setShowAd(true); }}
-                                            className="px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(168,85,247,0.5)] flex items-center justify-center gap-2"
-                                        >
-                                            <Tv className="w-5 h-5" />
-                                            <span>REVIVE</span>
-                                        </button>
-                                    )}
-                                    {canUseAdKey && (
-                                        <button
-                                            onClick={() => { setAdRewardType('key'); setShowAd(true); }}
-                                            className="px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(59,130,246,0.5)] flex items-center justify-center gap-2"
-                                        >
-                                            <Tv className="w-5 h-5" />
-                                            <span>+1 KEY</span>
-                                        </button>
-                                    )}
-                                </div>
+                                {/* Ad rewards disabled */}
                             </div>
                         )}
 
@@ -482,28 +440,9 @@ export const HUD: React.FC = () => {
                         </div>
 
 
-                        {/* Rewarded Ad Modal */}
-                        {showAd && (
-                            <RewardedAd
-                                onClose={() => setShowAd(false)}
-                                onReward={() => {
-                                    setShowAd(false);
-                                    if (adRewardType === 'revive') {
-                                        continueWithAdRevive();
-                                    } else {
-                                        continueWithAdKey();
-                                    }
-                                }}
-                                rewardType={adRewardType}
-                            />
-                        )}
+                        {/* Rewarded Ad Modal removed */}
 
-                        {/* AdSense Banner - Bottom of Game Over */}
-                        {/* TEMPORARILY DISABLED FOR RECORDING */}
-                        <div className="w-full mt-6 flex flex-col items-center gap-4">
-                            <AdSenseBanner slot={AD_SLOTS.GAME_OVER} format="rectangle" style={{ display: 'block', width: '100%', maxWidth: '336px', height: '280px' }} />
-                            <AdsterraNativeBanner />
-                        </div>
+                        {/* AdSense Banner - Bottom of Game Over removed */}
                     </div>
                 </div>
             </div>
