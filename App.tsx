@@ -106,7 +106,7 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
         {/* Adsterra Banner - Above Footer removed */}
 
         {/* Footer */}
-        <footer className="text-gray-500 text-sm text-center pb-8 w-full max-w-4xl border-t border-white/5 pt-8">
+        <footer className="text-gray-500 text-sm text-center pb-8 w-full max-w-4xl border-t border-white/5 pt-8 mt-[35vh]">
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-4">
             <a href="/privacy.html" className="hover:text-cyan-300 transition-colors">Privacy Policy</a>
             <a href="/terms.html" className="hover:text-cyan-300 transition-colors">Terms of Service</a>
