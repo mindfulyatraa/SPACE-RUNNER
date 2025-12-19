@@ -12,9 +12,7 @@ import { GameStatus, LETTER_COLORS, ShopItem, RUN_SPEED_BASE } from '../../types
 import { audio } from '../System/Audio';
 import spaceRunnerImg from '../../space_runner.jpg';
 
-import spaceRunnerImg from '../../space_runner.jpg';
-
-// AdSense Slot IDs removed
+import { AdsterraBanner } from '../Ads/AdsterraBanner';
 
 // Available Shop Items
 const SHOP_ITEMS: ShopItem[] = [
@@ -134,7 +132,10 @@ const ShopScreen: React.FC = () => {
                     RESUME MISSION <Play className="ml-2 w-5 h-5" fill="white" />
                 </button>
 
-                {/* AdSense Banner - Bottom of Shop removed */}
+                {/* Adsterra Banner - Bottom of Shop */}
+                <div className="w-full mt-8 flex justify-center">
+                    <AdsterraBanner />
+                </div>
             </div>
         </div>
     );
@@ -319,7 +320,10 @@ const ProfileScreen: React.FC = () => {
                     BACK TO MENU
                 </button>
 
-                {/* AdSense Banner - Bottom of Profile removed */}
+                {/* Adsterra Banner - Bottom of Profile */}
+                <div className="w-full mt-8 flex justify-center">
+                    <AdsterraBanner />
+                </div>
 
             </div>
         </div>
@@ -372,7 +376,10 @@ export const HUD: React.FC = () => {
                                 <User className="w-4 h-4 mr-2" /> PILOT PROFILE
                             </button>
 
-                            {/* Adsterra Banner for Main Menu removed */}
+                            {/* Adsterra Banner for Main Menu */}
+                            <div className="w-full flex justify-center mt-2 pointer-events-auto">
+                                <AdsterraBanner />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -442,7 +449,10 @@ export const HUD: React.FC = () => {
 
                         {/* Rewarded Ad Modal removed */}
 
-                        {/* AdSense Banner - Bottom of Game Over removed */}
+                        {/* Adsterra Banner - Bottom of Game Over */}
+                        <div className="w-full mt-6 flex justify-center">
+                            <AdsterraBanner />
+                        </div>
                     </div>
                 </div>
             </div>

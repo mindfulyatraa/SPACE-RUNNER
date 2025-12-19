@@ -15,6 +15,8 @@ import { LevelManager } from './components/World/LevelManager';
 import { Effects } from './components/World/Effects';
 import { HUD } from './components/UI/HUD';
 import { useStore } from './store';
+import { AdsterraBanner } from './components/Ads/AdsterraBanner';
+import { AdsterraSocialBar } from './components/Ads/AdsterraSocialBar';
 import { Recorder } from './components/UI/Recorder';
 import { AdminToggle } from './components/UI/AdminToggle';
 import { PauseMenu } from './components/UI/PauseMenu';
@@ -99,11 +101,15 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
           </button>
         </header>
 
-        {/* Adsterra Banner - Top position removed */}
+        {/* Adsterra Banner - Top position */}
+        <div className='w-full flex justify-center mb-8'>
+          <AdsterraBanner />
+        </div>
 
 
 
-        {/* Adsterra Banner - Above Footer removed */}
+        {/* Adsterra Banner - Above Footer */}
+        <AdsterraBanner />
 
         {/* Footer */}
         <footer className="text-gray-500 text-sm text-center pb-8 w-full max-w-4xl border-t border-white/5 pt-8 mt-[35vh]">
@@ -170,6 +176,7 @@ function App() {
         <AdminToggle />
         <PauseMenu />
         <HUD />
+        <AdsterraSocialBar />
         <Recorder canvasRef={canvasRef} />
         <Canvas
           ref={canvasRef}
