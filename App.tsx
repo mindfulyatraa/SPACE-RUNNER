@@ -34,10 +34,10 @@ const CameraController = () => {
     const aspect = size.width / size.height;
     const isMobile = aspect < 1.2;
 
-    // Fixed camera positions
-    const cameraY = isMobile ? 8.0 : 6.0;   // Higher camera for better view
-    const cameraZ = isMobile ? 14.0 : 10.0;  // Further back to frame player
-    const lookDistance = isMobile ? -20 : -25; // Look closer so player isn't at very bottom
+    // Fixed camera positions - OPTIMIZED FOR MOBILE
+    const cameraY = isMobile ? 5.5 : 6.0;   // Lower on mobile for better player visibility
+    const cameraZ = isMobile ? 10.0 : 10.0;  // Same distance for consistency
+    const lookDistance = isMobile ? -15 : -25; // Closer look-at for mobile
 
     const targetPos = new THREE.Vector3(0, cameraY, cameraZ);
 
@@ -139,6 +139,18 @@ function App() {
   const { recordingDpr } = useStore();
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
+  // Mobile detection for performance optimization
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const checkMobile = () => {
+      const aspect = window.innerWidth / window.innerHeight;
+      setIsMobile(aspect < 1.2 || window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Render Social Bar globally
   React.useEffect(() => {
     // Force re-render of social bar if needed
@@ -179,9 +191,9 @@ function App() {
         <Recorder canvasRef={canvasRef} />
         <Canvas
           ref={canvasRef}
-          dpr={recordingDpr || [1, 2]} // Cap at 2x for smooth performance (Retina)
+          dpr={recordingDpr || (isMobile ? 1 : [1, 2])} // Cap at 1x for mobile performance
           gl={{
-            antialias: true,
+            antialias: !isMobile, // Disable antialias on mobile for performance
             stencil: false,
             depth: true,
             powerPreference: "high-performance",
