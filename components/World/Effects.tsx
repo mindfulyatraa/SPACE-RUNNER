@@ -15,16 +15,7 @@ export const Effects: React.FC = () => {
 
   // Skip heavy effects on mobile for better performance
   if (isMobile) {
-    return (
-      <EffectComposer enableNormalPass={false} multisampling={0}>
-        <Bloom
-          luminanceThreshold={0.9}
-          intensity={0.5}
-          radius={0.3}
-          levels={3}
-        />
-      </EffectComposer>
-    );
+    return null; // NO POST-PROCESSING ON MOBILE
   }
 
   return (

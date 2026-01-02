@@ -16,7 +16,7 @@ import { Effects } from './components/World/Effects';
 import { HUD } from './components/UI/HUD';
 import { useStore } from './store';
 import { AdsterraBanner } from './components/Ads/AdsterraBanner';
-import { AdsterraSocialBar } from './components/Ads/AdsterraSocialBar';
+import { AdsterraNativeBanner } from './components/Ads/AdsterraNativeBanner';
 import { Recorder } from './components/UI/Recorder';
 import { AdminToggle } from './components/UI/AdminToggle';
 import { PauseMenu } from './components/UI/PauseMenu';
@@ -101,6 +101,11 @@ const LandingPage = ({ onPlay }: { onPlay: () => void }) => {
           </button>
         </header>
 
+        {/* Adsterra Native Banner - High Visibility */}
+        <div className="w-full max-w-2xl mx-auto mb-12">
+          <AdsterraNativeBanner />
+        </div>
+
         {/* Adsterra Banner - Top position */}
         <div className='w-full flex justify-center mb-8'>
           <AdsterraBanner />
@@ -151,10 +156,8 @@ function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Render Social Bar globally
-  React.useEffect(() => {
-    // Force re-render of social bar if needed
-  }, []);
+  // Render Social Bar globally - Removed as file is missing
+
 
   useEffect(() => {
     const handleVisibilityChange = () => {

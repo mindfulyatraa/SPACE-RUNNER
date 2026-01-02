@@ -317,18 +317,20 @@ export const useStore = create<GameState>((set, get) => ({
     },
 
     advanceLevel: () => {
-        const { level, laneCount, speed } = get();
+        const { level, speed } = get();
         const nextLevel = level + 1;
         const nextWordIndex = (nextLevel - 1) % LEVEL_WORDS.length;
 
-        const speedIncrease = RUN_SPEED_BASE * 0.20;
+        // INCREASED DIFFICULTY: 30% speed increase per level (was 20%)
+        const speedIncrease = RUN_SPEED_BASE * 0.30;
         const newSpeed = speed + speedIncrease;
 
-        const newLaneCount = Math.min(laneCount + (nextLevel % 2 === 0 ? 2 : 0), 9);
+        // FIXED 3 LANES: No lane count changes on level up
+        // This prevents the runner from disappearing when lanes expand
 
         set({
             level: nextLevel,
-            laneCount: newLaneCount,
+            laneCount: 3, // ALWAYS 3 LANES
             status: GameStatus.PLAYING,
             speed: newSpeed,
             collectedLetters: [],
